@@ -8,7 +8,7 @@ def extract_price(price_str):
     cleaned = re.sub(r"[^\d.]", "", price_str)
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
-def scrape_carousell(product_name: str):
+def carousell_scraper(product_name: str):
     with sync_playwright() as p:
 
         count = 1
