@@ -13,8 +13,9 @@ def scrape_carousell(product_name: str):
 
         count = 1
 
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
+        context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
+        page = context.new_page()
         page.goto("https://www.carousell.sg/")
 
         BASE_URL = BASE_URL = "https://www.carousell.sg"
