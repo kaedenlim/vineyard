@@ -8,13 +8,15 @@ def extract_price(price_str):
     cleaned = re.sub(r"[^\d.]", "", price_str)
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
-def carousell_scraper(product_name: str):
+def scrape_carousell(product_name: str):
     
     scraped_data_with_timestamp = {}
 
     with sync_playwright() as p:
 
-        count = 1
+        # Facilitate keeping track of average price
+        total_items = 0
+        total_price = 0.0
 
         browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
         context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
@@ -58,7 +60,7 @@ def carousell_scraper(product_name: str):
                 #listing.locator("div:first-child a:nth-of-type(2) p:first-child")
 
                 # Extract price (from `title` attribute)
-                price = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title")
+                price = extract_price(listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title"))
 
                 # Extract image url
                 image = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img").get_attribute("src")
@@ -72,15 +74,19 @@ def carousell_scraper(product_name: str):
                     "url": url,
                     "image_url": image,
                     "title": product_title,
-                    "price": extract_price(price),
+                    "price": price,
                 })
 
-                count += 1
+                total_items += 1
+                total_price += price
 
             except Exception as e:
                 print(f"Error extracting a listing: {e}")
 
         browser.close()
+
+        # Get average price for the product
+        average_price = total_price / total_items
 
         # Define Singapore timezone (UTC+8)
         sgt_timezone = timezone(timedelta(hours=8))
@@ -90,5 +96,6 @@ def carousell_scraper(product_name: str):
 
         scraped_data_with_timestamp["items"] = scraped_data
         scraped_data_with_timestamp["timestamp"] = current_time_sgt
+        scraped_data_with_timestamp["average_price"] = average_price
 
         return scraped_data_with_timestamp
