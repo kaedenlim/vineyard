@@ -1,5 +1,6 @@
 export type ProductCardInfo = {
-    productName: string;
+    title: string;
     price: number;
-    imageURL: string;
+    image: string;
+    link: string;
 };
