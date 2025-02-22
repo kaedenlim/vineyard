@@ -8,25 +8,29 @@ import { useState, useRef } from "react"
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 
-export default function Component() {
+import { scrape } from "@/services/scrapeAPI"
+
+export default function Search() {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const mockApiCall = async () => {
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-    // You would typically make your actual API call here and send the image if selected
-    setIsLoading(false)
-  }
-
   const handleSubmit = async (e?: React.FormEvent) => {
-    e?.preventDefault()
-    if (!inputValue) return
-    await mockApiCall()
-  }
+    e?.preventDefault();
+    if (!inputValue) return;
+  
+    setIsLoading(true);
+    try {
+      const response = await scrape(inputValue); // Call the imported `scrape` function
+      
+      // need push router here
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
