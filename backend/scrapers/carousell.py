@@ -44,11 +44,11 @@ def carousell_scraper(product_name: str):
         for listing in listings:
             try:
                 # Extract seller username
-                username = listing.locator("[data-testid='listing-card-text-seller-name']").text_content()
+                # username = listing.locator("[data-testid='listing-card-text-seller-name']").text_content()
 
                 # Extract time (since no unique `data-testid`, use relative positioning)
-                time_element = listing.locator("p.D_pK").first  # First paragraph with relevant class
-                time = time_element.text_content() if time_element.is_visible() else "N/A"
+                # time_element = listing.locator("p.D_pK").first  # First paragraph with relevant class
+                # time = time_element.text_content() if time_element.is_visible() else "N/A"
 
                 # Extract product name
                 product_title = listing.locator("p[style*='--max-line']").text_content()
@@ -67,9 +67,7 @@ def carousell_scraper(product_name: str):
                 scraped_data.append({
                     "id": count,
                     "url": url,
-                    "seller": username,
-                    "time": time,
-                    "product_name": product_title,
+                    "title": product_title,
                     "price": extract_price(price),
                     "scrape_time": current_time
                 })
