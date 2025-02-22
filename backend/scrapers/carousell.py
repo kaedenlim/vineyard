@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-import datetime
+from datetime import datetime, timezone, timedelta
 import random
 import re
 
@@ -9,6 +9,9 @@ def extract_price(price_str):
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
 def carousell_scraper(product_name: str):
+    
+    scraped_data_with_timestamp = {}
+
     with sync_playwright() as p:
 
         count = 1
@@ -56,8 +59,9 @@ def carousell_scraper(product_name: str):
 
                 # Extract price (from `title` attribute)
                 price = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title")
-                
-                current_time = datetime.datetime.now()
+
+                # Extract image url
+                image = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img").get_attribute("src")
 
                 relative_link = listing.locator("a.D_iU").last.get_attribute("href")
 
@@ -65,11 +69,10 @@ def carousell_scraper(product_name: str):
 
                 # Save data
                 scraped_data.append({
-                    "id": count,
                     "url": url,
+                    "image_url": image,
                     "title": product_title,
                     "price": extract_price(price),
-                    "scrape_time": current_time
                 })
 
                 count += 1
@@ -79,4 +82,13 @@ def carousell_scraper(product_name: str):
 
         browser.close()
 
-        return scraped_data
+        # Define Singapore timezone (UTC+8)
+        sgt_timezone = timezone(timedelta(hours=8))
+
+        # Get current time in Singapore Time (ISO format)
+        current_time_sgt = datetime.now(sgt_timezone).isoformat() + "Z"
+
+        scraped_data_with_timestamp["items"] = scraped_data
+        scraped_data_with_timestamp["timestamp"] = current_time_sgt
+
+        return scraped_data_with_timestamp
