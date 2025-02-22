@@ -71,10 +71,10 @@ def scrape_carousell(product_name: str):
 
                 # Save data
                 scraped_data.append({
-                    "url": url,
-                    "image_url": image,
                     "title": product_title,
                     "price": price,
+                    "image": image,
+                    "link": url
                 })
 
                 total_items += 1
