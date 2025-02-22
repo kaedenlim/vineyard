@@ -1,6 +1,5 @@
 import axiosClient from './axiosClient'
 
-
 interface ScrapeResults {
     scraped_data: ScrapeProduct[];
     timestamp: string;
@@ -17,7 +16,7 @@ interface ScrapeProduct {
 
 export const scrape = async (product_name : string):Promise<ScrapeResults> => {
     try {
-        const response = await axiosClient.post<ScrapeResults>(`'/scrape/${product_name}`)
+        const response = await axiosClient.get<ScrapeResults>(`/scrape/${product_name}`)
         return response.data
     } catch (error) {
         console.error("Error scraping", error);
