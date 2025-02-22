@@ -7,6 +7,7 @@ import { Mic, ArrowRight, ImagePlus, X } from "lucide-react"
 import { useState, useRef } from "react"
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 
 import { scrape } from "@/services/scrapeAPI"
 
@@ -15,6 +16,7 @@ export default function Search() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter();
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -24,6 +26,7 @@ export default function Search() {
     try {
       const response = await scrape(inputValue); // Call the imported `scrape` function
       
+      router.push("/search/${inputValue}/results");
       // need push router here
     } catch (error) {
       console.error("Error fetching data:", error);
