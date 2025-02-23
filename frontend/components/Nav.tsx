@@ -12,13 +12,13 @@ export default function Nav() {
             <div className="h-[60vh] flex flex-col justify-center items-start gap-6 flex-grow py-6">
             <div className="h-[60vh] flex flex-col justify-center items-start gap-6 flex-grow py-6">
                 <Link href="/search">
-                    <div className={`text-lg ${pathname === "/search" ? "font-bold" : ""}`}>Search</div>
+                    <div className={`text-lg ${pathname.startsWith("/search") ? "font-bold" : ""}`}>Search</div>
                 </Link>
                 <Link href="/dashboard">
-                    <div className={`text-lg ${pathname === "/dashboard" ? "font-bold" : ""}`}>Dashboard</div>
+                    <div className={`text-lg ${pathname.startsWith("/dashboard") ? "font-bold" : ""}`}>Dashboard</div>
                 </Link>
                 <Link href="/history">
-                    <div className={`text-lg ${pathname === "/history" ? "font-bold" : ""}`}>History</div>
+                    <div className={`text-lg ${pathname.startsWith("/history") ? "font-bold" : ""}`}>History</div>
                 </Link>
             </div>
             </div>
