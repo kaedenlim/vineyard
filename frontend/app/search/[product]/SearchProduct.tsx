@@ -75,22 +75,6 @@ export default function SearchProduct() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 border-r bg-white p-6">
-        <h1 className="mb-8 text-2xl font-bold">Vineyard</h1>
-        <nav className="space-y-6">
-          <div className="space-y-2">
-            <p className="text-lg">Search</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-lg font-semibold">Dashboard</p>
-          </div>
-          <div className="fixed bottom-6 space-y-2">
-            <h3 className="text-lg font-semibold">View Pricing &amp; Plans</h3>
-            <p className="text-sm text-muted-foreground">Check out which plans...</p>
-          </div>
-        </nav>
-      </div>
 
       {/* Main Content */}
       <div className="ml-64 p-6">
