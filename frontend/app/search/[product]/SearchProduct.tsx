@@ -132,7 +132,7 @@ export default function SearchProduct() {
               </Button>
             </div>
 
-            {/* Price Comparisons in 2 columns */}
+            {/* Price Comparisons in 2 columns, cards are clickable*/}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Shopee */}
               <Link href={`/search/${searchTerm}/shopee`} className="block">
