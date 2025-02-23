@@ -122,12 +122,15 @@ export default function SearchProduct() {
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   {/* Retailer info */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-orange-100">
-                      <span className="text-orange-500 text-sm">S</span>
+
+                  <Link href={`/search/${searchTerm}/results/shopee`}>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
+                        <span className="text-orange-500 text-xs">S</span>
+                      </div>
+                      <span className="font-medium text-sm">Shopee</span>
                     </div>
-                    <span className="font-medium">Shopee</span>
-                  </div>
+                  </Link>
                   {/* Price info */}
                   <div className="text-right">
                     <span className="text-base font-bold">$15.84</span>
@@ -148,12 +151,14 @@ export default function SearchProduct() {
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   {/* Retailer info */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-orange-100">
-                      <span className="text-orange-500 text-sm">L</span>
+                  <Link href={`/search/${searchTerm}/results/lazada`}>
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
+                      <span className="text-orange-500 text-xs">L</span>
                     </div>
                     <span className="font-medium">Lazada</span>
                   </div>
+                  </Link>
                   {/* Price info */}
                   <div className="text-right">
                     <span className="text-base font-bold">$17.01</span>
@@ -174,12 +179,14 @@ export default function SearchProduct() {
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   {/* Retailer info */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-orange-100">
-                      <span className="text-orange-500 text-sm">C</span>
+                  <Link href={`/search/${searchTerm}/results/carousell`}>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
+                        <span className="text-orange-500 text-xs">C</span>
+                      </div>
+                      <span className="font-medium text-sm">Carousell</span>
                     </div>
-                    <span className="font-medium">Carousell</span>
-                  </div>
+                  </Link>
                   {/* Price info */}
                   <div className="text-right">
                     <span className="text-base font-bold">$21.43</span>
