@@ -153,12 +153,14 @@ export default function SearchProduct() {
               <Card className="p-3">
                 <div className="flex items-center justify-between">
                   {/* Retailer info */}
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
-                      <span className="text-orange-500 text-xs">S</span>
+                  <Link href={`/search/${searchTerm}/results/shopee`}>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
+                        <span className="text-orange-500 text-xs">S</span>
+                      </div>
+                      <span className="font-medium text-sm">Shopee</span>
                     </div>
-                    <span className="font-medium text-sm">Shopee</span>
-                  </div>
+                  </Link>
                   {/* Price info */}
                   <div className="flex flex-col items-end">
                     <span className="text-xs text-green-500">
@@ -183,12 +185,14 @@ export default function SearchProduct() {
               <Card className="p-3">
                 <div className="flex items-center justify-between">
                   {/* Retailer info */}
+                  <Link href={`/search/${searchTerm}/results/lazada`}>
                   <div className="flex items-center gap-2">
                     <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
                       <span className="text-orange-500 text-xs">L</span>
                     </div>
                     <span className="font-medium text-sm">Lazada</span>
                   </div>
+                  </Link>
                   {/* Price info */}
                   <div className="flex flex-col items-end">
                     <span className="text-xs text-red-500">
@@ -213,12 +217,14 @@ export default function SearchProduct() {
               <Card className="p-3">
                 <div className="flex items-center justify-between">
                   {/* Retailer info */}
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
-                      <span className="text-orange-500 text-xs">C</span>
+                  <Link href={`/search/${searchTerm}/results/carousell`}>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-100">
+                        <span className="text-orange-500 text-xs">C</span>
+                      </div>
+                      <span className="font-medium text-sm">Carousell</span>
                     </div>
-                    <span className="font-medium text-sm">Carousell</span>
-                  </div>
+                  </Link>
                   {/* Price info */}
                   <div className="flex flex-col items-end">
                     <span className="text-xs text-red-500">
