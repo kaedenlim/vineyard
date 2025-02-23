@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Mic, ArrowRight, ImagePlus, X } from "lucide-react"
 import { useState, useRef } from "react"
-import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 
@@ -25,14 +24,13 @@ export default function Search() {
     setIsLoading(true);
     try {
       const response = await scrape(inputValue); // Call the imported `scrape` function
-      
-      router.push("/search/${inputValue}/results");
-      // need push router here
+
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
+    router.push(`/search/${inputValue}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -68,7 +66,6 @@ export default function Search() {
       <div className="min-h-screen bg-zinc-900 text-white flex flex-col items-center justify-center">
         <div className="w-full max-w-md space-y-8">
           <h2 className="text-2xl font-semibold text-center mb-8">Scraping data for "{inputValue}"</h2>
-          <Progress value={33} className="w-full" />
           <p className="text-center text-zinc-400 mt-4">This might take a few moments...</p>
         </div>
       </div>
