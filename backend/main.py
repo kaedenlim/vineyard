@@ -35,6 +35,7 @@ def get_insights(product_name: str):
     
     # Generate AI insights
     insights = generate_product_insights(product_data)
+    print(insights)
     
     return {
         "product_data": product_data,
