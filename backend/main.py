@@ -1,8 +1,8 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from scrapers.lazada import scrape_lazada
+from scrapers.lazada import scrape_lazada, onboard_lazada
 from scrapers.carousell import scrape_carousell, onboard_carousell
-from dto.onboard_dto import OnboardDTO
+from models.dto import ScrapeDTO, OnboardDTO
 from typing import List
 
 app = FastAPI(root_path="/api")
@@ -21,18 +21,20 @@ def onboard(request: OnboardDTO):
     lazada_results = []
     shopee_results = []
     
+        
+    if request.lazada_url:
+        lazada_results = onboard_lazada(str(request.lazada_url))
+
     if request.carousell_url:
-        carousell_url = request.carousell_url
-        carousell_results = onboard_carousell(str(carousell_url))
-    
+        carousell_results = onboard_carousell(str(request.carousell_url))
 
-    return {"status": "success", "carousell_results": carousell_results}
+    return {"status": "success", "carousell_results": carousell_results, "lazada_results": lazada_results}
 
-@app.get("/scrape/{product_name}")
-def scrape(product_name: str):
-    # this scrapes for lazada, the 1 is for the no of pages to scrape (avoid bot detection)
-    lazada_results = scrape_lazada(product_name, 1)
-    carousell_results = scrape_carousell(product_name)
+@app.post("/scrape")
+def scrape(scrape_request: ScrapeDTO):
+    # this scrapes for lazada, default is 1 page to scrape (avoid bot detection)
+    lazada_results = scrape_lazada(scrape_request.product)
+    carousell_results = scrape_carousell(scrape_request.product)
     
     # return all scraped data and the average value
     return {"lazada_results": lazada_results, "carousell_results": carousell_results}
