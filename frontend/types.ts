@@ -6,9 +6,9 @@ export type ProductCardInfo = {
 };
 
 export type ProfileLinkInfo = {
-    shopee: string;
-    lazada: string;
-    carousell: string;
+    shopee_url: string;
+    lazada_url: string;
+    carousell_url: string;
 }
 
 export type ProfileScrapeResponse = {

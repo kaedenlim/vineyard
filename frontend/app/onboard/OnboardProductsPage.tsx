@@ -32,11 +32,14 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
         <h2 className="text-lg font-semibold mb-2">Shopee</h2>
         <Carousel orientation="horizontal">
           <CarouselContent>
-            {shopee.map((product, index) => (
+            {/* {shopee.map((product, index) => (
               <CarouselItem key={`shopee-${index}`} className="basis-1/8">
                 <OnboardProductCard {...product} />
               </CarouselItem>
-            ))}
+            ))} */}
+            {shopee.length == 0 && (
+                <div className="w-full bg-[#f7f7f7] text-md h-[120px] text-center py-12 rounded-lg ml-4 text-gray-400">No listings found for this platform</div>
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
@@ -53,6 +56,9 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
                 <OnboardProductCard {...product} />
               </CarouselItem>
             ))}
+            {lazada.length == 0 && (
+                <div className="w-full bg-[#f7f7f7] text-md h-[120px] text-center py-12 rounded-lg ml-4 text-gray-400">No listings found for this platform</div>
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
