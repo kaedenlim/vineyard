@@ -118,13 +118,13 @@ def scrape_carousell(product_name: str):
 def onboard_carousell(profile_url: str):
     with sync_playwright() as p:
 
-        browser = p.chromium.launch(headless=False, args=["--disable-blink-features=AutomationControlled"])
+        browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
         context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
         page = context.new_page()
         page.goto(profile_url)
 
         page.wait_for_timeout(random.randint(2000, 4000))  
-        page.reload() # avoid popup 
+        # page.reload() # avoid popup 
         
         page.wait_for_selector("div[data-testid^='listing-card-']", timeout=10000)
 
@@ -152,7 +152,7 @@ def onboard_carousell(profile_url: str):
             try:
                 # Extract product status
                 product_status_element = listing.locator("div:first-child a:first-child div:first-child p:first-child")
-                if product_status_element.count() > 0:
+                if product_status_element.count() > 0 and product_status_element.text_content() != "Buyer Protection":
                     print("this product is 'SOLD' or product_status is 'RESERVED'")
                     continue
 

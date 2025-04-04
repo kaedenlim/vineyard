@@ -37,6 +37,9 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
                 <OnboardProductCard {...product} />
               </CarouselItem>
             ))} */}
+            {shopee.length == 0 && (
+                <div className="w-full bg-[#f7f7f7] text-md h-[120px] text-center py-12 rounded-lg ml-4 text-gray-400">No listings found for this platform</div>
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
@@ -53,6 +56,9 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
                 <OnboardProductCard {...product} />
               </CarouselItem>
             ))}
+            {lazada.length == 0 && (
+                <div className="w-full bg-[#f7f7f7] text-md h-[120px] text-center py-12 rounded-lg ml-4 text-gray-400">No listings found for this platform</div>
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
