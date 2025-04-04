@@ -32,11 +32,11 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
         <h2 className="text-lg font-semibold mb-2">Shopee</h2>
         <Carousel orientation="horizontal">
           <CarouselContent>
-            {shopee.map((product, index) => (
+            {/* {shopee.map((product, index) => (
               <CarouselItem key={`shopee-${index}`} className="basis-1/8">
                 <OnboardProductCard {...product} />
               </CarouselItem>
-            ))}
+            ))} */}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
