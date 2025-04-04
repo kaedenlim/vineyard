@@ -62,6 +62,11 @@ def scrape_carousell(product_name: str):
                 # Extract price (from `title` attribute)
                 price = extract_price(listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title"))
 
+                discount = 0
+                discount_element = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) span")
+                if discount_element.count() > 0:
+                    discount = 1 - (price/extract_price(discount_element.get_attribute("title")))
+
                 # Extract image url
                 image = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img").get_attribute("src")
 
@@ -73,6 +78,7 @@ def scrape_carousell(product_name: str):
                 scraped_data.append({
                     "title": product_title,
                     "price": price,
+                    "discount": discount,
                     "image": image,
                     "link": url
                 })
