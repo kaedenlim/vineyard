@@ -80,7 +80,8 @@ def scrape_carousell(product_name: str):
                     "price": price,
                     "discount": discount,
                     "image": image,
-                    "link": url
+                    "link": url,
+                    "page_ranking": total_items + 1
                 })
 
                 total_items += 1
