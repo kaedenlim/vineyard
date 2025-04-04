@@ -1,3 +1,9 @@
+import sys
+import asyncio
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada, onboard_lazada
@@ -21,14 +27,17 @@ def onboard(request: OnboardDTO):
     lazada_results = []
     shopee_results = []
     
-        
     if request.lazada_url:
         lazada_results = onboard_lazada(str(request.lazada_url))
 
     if request.carousell_url:
         carousell_results = onboard_carousell(str(request.carousell_url))
 
-    return {"status": "success", "carousell_results": carousell_results, "lazada_results": lazada_results}
+    return {
+        "shopee": shopee_results,
+        "lazada": lazada_results,
+        "carousell": carousell_results
+    }
 
 @app.post("/scrape")
 def scrape(scrape_request: ScrapeDTO):

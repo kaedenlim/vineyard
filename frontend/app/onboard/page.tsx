@@ -13,9 +13,9 @@ import { testProfileScrapeResponse } from "@/testdata";
 export default function Page() {
   const [loading, setLoading] = useState(false);
   const [profileLinks, setProfileLinks] = useState<ProfileLinkInfo>({
-    shopee: "",
-    lazada: "",
-    carousell: "",
+    shopee_url: "",
+    lazada_url: "",
+    carousell_url: "",
   });
   const [responseData, setResponseData] = useState<ProfileScrapeResponse | null>(null);
 
@@ -39,6 +39,7 @@ export default function Page() {
     setLoading(true);
     try {
       const data = await getProfileProducts(profileLinks);
+      console.log(data);
       setResponseData(data);
     } catch (error) {
       console.error("Error getting profile products", error);
@@ -64,44 +65,44 @@ export default function Page() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="shopee" className="block text-sm font-medium text-gray-700">
+                <Label htmlFor="shopee_url" className="block text-sm font-medium text-gray-700">
                   Shopee
                 </Label>
                 <Input
-                  id="shopee"
-                  name="shopee"
+                  id="shopee_url"
+                  name="shopee_url"
                   type="url"
                   placeholder="https://shopee.sg/your-profile"
                   className="mt-1 block w-full"
-                  value={profileLinks.shopee}
+                  value={profileLinks.shopee_url}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <Label htmlFor="lazada" className="block text-sm font-medium text-gray-700">
+                <Label htmlFor="lazada_url" className="block text-sm font-medium text-gray-700">
                   Lazada
                 </Label>
                 <Input
-                  id="lazada"
-                  name="lazada"
+                  id="lazada_url"
+                  name="lazada_url"
                   type="url"
                   placeholder="https://lazada.sg/your-profile"
                   className="mt-1 block w-full"
-                  value={profileLinks.lazada}
+                  value={profileLinks.lazada_url}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <Label htmlFor="carousell" className="block text-sm font-medium text-gray-700">
+                <Label htmlFor="carousell_url" className="block text-sm font-medium text-gray-700">
                   Carousell
                 </Label>
                 <Input
-                  id="carousell"
-                  name="carousell"
+                  id="carousell_url"
+                  name="carousell_url"
                   type="url"
                   placeholder="https://carousell.sg/your-profile"
                   className="mt-1 block w-full"
-                  value={profileLinks.carousell}
+                  value={profileLinks.carousell_url}
                   onChange={handleChange}
                 />
               </div>
