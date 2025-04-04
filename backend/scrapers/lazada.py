@@ -2,7 +2,8 @@
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
 
-def scrape_lazada(product_name: str, times: int):
+def scrape_lazada(product_name: str):
+    times = 1;
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=False)
         context = browser.new_context(viewport={"width": 1920, "height": 1080})
@@ -76,7 +77,49 @@ def scrape_lazada(product_name: str, times: int):
     
         return lazada
 
+def onboard_lazada(profile_url: str):
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=False)
+        context = browser.new_context(viewport={"width": 1920, "height": 1080})
+        page = context.new_page()
 
-        
-        
-        
+        # go to url
+        page.goto(profile_url)
+        times = 1
+
+        while times:
+            times -= 1
+            page.wait_for_timeout(5000)
+
+            # Get all the products on the page and their counts to keep track
+            items = page.locator("div[data-qa-locator='product-item']")
+            no_items = items.count()
+            print(no_items)
+
+            scraped_data = []
+
+            for i in range(no_items):
+                item_title = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").nth(0).get_attribute("title")
+                item_link = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").nth(0).get_attribute("href")
+                item_price = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
+                item_image = items.nth(i).locator("div:first-child div:first-child div:first-child div:first-child a:first-child div:first-child img:first-child").nth(0).get_attribute("src")
+                
+                stripped_price = item_price.strip("'$'") if item_price else None
+                full_item_url = "https:" + item_link if item_link else None
+
+                scraped_data.append({
+                    "title": item_title if item_title else None,
+                    "price": stripped_price if stripped_price else None,
+                    "image": item_image if item_image.startswith("https://img.lazcdn") else None,
+                    "link": full_item_url
+                })
+            
+            # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
+            # if button.is_visible() and button.get_attribute("disabled") is None:
+            #     times -= 1
+            #     button.click()
+            # else:
+            #     print("No more pages left.")
+            #     break
+
+        return scraped_data
