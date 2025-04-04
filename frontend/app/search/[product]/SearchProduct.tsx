@@ -37,32 +37,27 @@ const carousellData = [
 
 export default function SearchProduct() {
   const searchParams = useSearchParams();
-  const initialSearchTerm = searchParams.get("q");
+  // Retrieve the query parameter "q"; if not provided, fall back to "sunscreen"
+  const initialSearchTerm = searchParams.get("q") || "sunscreen";
   const [isClient, setIsClient] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm || "");
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [productImage, setProductImage] = useState(
     "https://img.lazcdn.com/g/p/303c7d35af6fefd40c2cee2309a50886.jpg_200x200q80.jpg_.webp"
   );
   const [alertsOn, setAlertsOn] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [insights, setInsights] = useState<string | null>(null);
+  const [isLoadingInsights, setIsLoadingInsights] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    if (!searchTerm) {
-      setError("Please enter a product name to search");
-      return;
-    }
     // Inject the search term into the endpoint URL
     const fetchData = async () => {
       try {
+        // First fetch the scraped data
         const res = await fetch(
           `http://127.0.0.1:8000/scrape/${encodeURIComponent(searchTerm)}`
         );
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
         const data = await res.json();
-        setError(null);
 
         // Get the first image URL from the scraped_data array provided by the endpoint.
         if (
@@ -74,12 +69,26 @@ export default function SearchProduct() {
           // Fallback: use product_type_image if scraped_data is empty or no image exists.
           setProductImage(data.lazada_results.product_type_image);
         }
+
+        // Then fetch the insights
+        setIsLoadingInsights(true);
+        try {
+          const insightsRes = await fetch(
+            `http://127.0.0.1:8000/insights/${encodeURIComponent(searchTerm)}`
+          );
+          const insightsData = await insightsRes.json();
+          setInsights(insightsData.insights);
+        } catch (error) {
+          console.error("Error fetching insights:", error);
+          setInsights("Unable to generate insights at this time.");
+        } finally {
+          setIsLoadingInsights(false);
+        }
       } catch (error) {
         console.error("Error fetching search results:", error);
-        setError("Failed to fetch search results. Please try again.");
       }
     };
-    fetchData();
+    // fetchData();
   }, [searchTerm]);
 
   // Toggle alerts on/off
