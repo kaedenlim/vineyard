@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight, Grape } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SignInButton, SignUpButton } from "@clerk/nextjs"
 
 export default function Home() {
   return (
@@ -41,16 +42,16 @@ export default function Home() {
                   className="flex flex-col gap-2 min-[400px]:flex-row justify-center animate-fade-in-up"
                   style={{ animationDelay: "400ms" }}
                 >
-                  <Link href="/signup">
+                  <SignUpButton>
                     <Button size="lg" className="gap-1">
                       <b>Try Vinesweeper</b> <ArrowRight className="h-4 w-4" />
                     </Button>
-                  </Link>
-                  <Link href="/login">
+                  </SignUpButton>
+                  <SignInButton>
                     <Button size="lg" variant="outline">
                       Sign back in
                     </Button>
-                  </Link>
+                  </SignInButton>
                 </div>
               </div>
             </div>
