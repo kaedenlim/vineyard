@@ -65,7 +65,7 @@ def scrape_carousell(product_name: str):
                 # Extract image url
                 image = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img").get_attribute("src")
 
-                relative_link = listing.locator("a.D_iU").last.get_attribute("href")
+                relative_link = listing.locator("div:first-child a:nth-of-type(2)").last.get_attribute("href")
 
                 url = BASE_URL + relative_link if relative_link else "N/A"
 
