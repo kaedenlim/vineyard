@@ -114,3 +114,72 @@ def scrape_carousell(product_name: str):
         scraped_data_with_timestamp["average_price"] = average_price
 
         return scraped_data_with_timestamp
+
+def onboard_carousell(profile_url: str):
+    with sync_playwright() as p:
+
+        browser = p.chromium.launch(headless=False, args=["--disable-blink-features=AutomationControlled"])
+        context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
+        page = context.new_page()
+        page.goto(profile_url)
+
+        page.wait_for_timeout(random.randint(2000, 4000))  
+        page.reload() # avoid popup 
+        
+        page.wait_for_selector("div[data-testid^='listing-card-']", timeout=10000)
+
+        while True:
+            show_more_button = page.locator("button", has_text="View more")
+            if show_more_button.count() == 0:
+                break
+            show_more_button.click()
+            # Wait for new content to load. Adjust this timeout or use a smarter wait if needed.
+            page.wait_for_timeout(random.randint(2000, 3200))
+
+        listings = page.locator("div[data-testid^='listing-card-']").all()
+        
+        if (len(listings) == 0):
+            listings = page.locator("//div[contains(@data-testid, 'listing-card-')]").all()
+
+        scraped_data = []
+
+        if (len(listings) == 0):
+            print("No listings found")
+            browser.close()
+
+        counter = 0
+        for listing in listings:
+            try:
+                # Extract product status
+                product_status_element = listing.locator("div:first-child a:first-child div:first-child p:first-child")
+                if product_status_element.count() > 0:
+                    print("this product is 'SOLD' or product_status is 'RESERVED'")
+                    continue
+
+                # Extract product name
+                product_title = listing.locator("p[style*='--max-line']").text_content()
+
+                relative_link = listing.locator("div:first-child a:first-child").last.get_attribute("href")
+        
+                # Extract price (from `title` attribute)
+                price = extract_price(listing.locator("div:first-child a:first-child div:nth-of-type(2) p:first-child").get_attribute("title"))
+
+                # Extract image url
+                image = listing.locator("div:first-child a:first-child div:first-child div:has(img) img").get_attribute("src")
+
+                url = "https://carousell.sg" + relative_link if relative_link else "N/A"
+
+                # Save data
+                scraped_data.append({
+                    "title": product_title,
+                    "price": price,
+                    "image": image,
+                    "link": url,
+                })
+
+            except Exception as e:
+                print(f"Error extracting a listing: {e}")
+
+        browser.close()
+
+        return scraped_data
