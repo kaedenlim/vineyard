@@ -35,6 +35,14 @@ def scrape_carousell(product_name: str):
         
         page.wait_for_selector("div[data-testid^='listing-card-']", timeout=10000)
 
+        while True:
+            show_more_button = page.locator("button", has_text="Show more results")
+            if show_more_button.count() == 0:
+                break
+            show_more_button.click()
+            # Wait for new content to load. Adjust this timeout or use a smarter wait if needed.
+            page.wait_for_timeout(random.randint(2000, 3200))
+
         listings = page.locator("div[data-testid^='listing-card-']").all()
         
         if (len(listings) == 0):
