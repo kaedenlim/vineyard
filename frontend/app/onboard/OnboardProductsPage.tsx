@@ -22,7 +22,7 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
   const router = useRouter();
 
   return (
-    <div className="space-y-1 max-w-[80%]">
+    <div className="space-y-1 max-w-[70vw]">
         <div className="flex justify-between items-center">
             <div className="text-xl font-semibold">Here are your listings we found:</div>
             <Button onClick={() => router.push("/search")}>Go to Dashboard</Button>
@@ -75,6 +75,9 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
                 <OnboardProductCard {...product} />
               </CarouselItem>
             ))}
+            {carousell.length == 0 && (
+                <div className="w-full bg-[#f7f7f7] text-md h-[120px] text-center py-12 rounded-lg ml-4 text-gray-400">No listings found for this platform</div>
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />

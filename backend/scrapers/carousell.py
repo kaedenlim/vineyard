@@ -18,7 +18,7 @@ def scrape_carousell(product_name: str):
         total_items = 0
         total_price = 0.0
 
-        browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
+        browser = p.chromium.launch(headless=False, args=["--disable-blink-features=AutomationControlled"])
         context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
         page = context.new_page()
         page.goto("https://www.carousell.sg/")
@@ -35,7 +35,8 @@ def scrape_carousell(product_name: str):
         
         page.wait_for_selector("div[data-testid^='listing-card-']", timeout=10000)
 
-        while True:
+        MAX_PAGES = 1
+        for _ in range(MAX_PAGES):
             show_more_button = page.locator("button", has_text="Show more results")
             if show_more_button.count() == 0:
                 break
