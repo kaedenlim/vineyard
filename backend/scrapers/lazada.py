@@ -63,7 +63,7 @@ def scrape_lazada(product_name: str):
                     item_price = float(item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content().strip("'$'"))
                     item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[type='product']").get_attribute("src")
                     
-                    discount_element = items.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(4) span:first-child del")
+                    discount_element = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(4) span:first-child del")
                     item_discount = 0
                     if discount_element.count() > 0:
                         item_discount = 1 - (item_price / float(discount_element.text_content().strip("'$'")))
