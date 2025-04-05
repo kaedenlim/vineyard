@@ -2,9 +2,11 @@ import axiosClient from "./axiosClient";
 
 export interface ScrapeProduct {
   title: string;
-  price: string;
+  price: number;
   image?: string;
   link?: string;
+  discount: number;
+  page_ranking: number;
 }
 
 export interface ScrapeResults {
@@ -14,9 +16,15 @@ export interface ScrapeResults {
   product_type_image?: string;
 }
 
+export interface InsightsData {
+  carousell_average_price: number
+  carousell_top_listings: ScrapeProduct[];
+}
+
 export interface AllScrapeResults {
   lazada_results: ScrapeResults;
   carousell_results: ScrapeResults;
+  insights_data: InsightsData;
 }
 
 export const scrape = async (product_name: string): Promise<AllScrapeResults> => {
