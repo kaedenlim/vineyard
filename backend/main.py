@@ -5,7 +5,11 @@ from scrapers.carousell import scrape_carousell, onboard_carousell
 from models.dto import ScrapeDTO, OnboardDTO
 from typing import List
 from ai_insights import generate_product_insights
+import sys
+import asyncio
 
+if sys.platform == "win32":
+     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 app = FastAPI()
 
@@ -99,3 +103,8 @@ def get_insights(request: Request):
     return {
         "insights": insights
     }
+
+@app.post("/dashboard")
+def get_dashboard():
+    dashboard = {}
+    return dashboard

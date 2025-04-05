@@ -44,19 +44,15 @@ def scrape_lazada(product_name: str):
         total_price = 0.0
         
         top_listings = []
-        top_listings_count = 10;
+        top_listings_count = 10
 
         rank = 1;
         while times:
-            times -= 1;
+            times -= 1
             page.wait_for_timeout(5000)
 
             # Get all the products on the page and their counts to keep track
-            items_locator = page.locator("div[data-qa-locator='product-item']")
-            no_items = items_locator.count()
-            total_items += no_items
-
-            items = items_locator.all()
+            items = page.locator("div[data-qa-locator='product-item']").all()
 
             scraped_data = []
 
