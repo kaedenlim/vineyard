@@ -30,3 +30,17 @@ export type RecentActivityInfo = {
     activity: string;
     date: string;
 }
+
+export type DashboardProductCard = {
+    title: string;
+    price: number;
+    image: string;
+    link: string;
+    site: string;
+    created_at: string;
+}
+
+export type ProductActivityResponse = {
+    products: DashboardProductCard[];
+    activities: RecentActivityInfo[];
+}
