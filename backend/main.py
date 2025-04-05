@@ -4,6 +4,7 @@ import asyncio
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada, onboard_lazada
@@ -11,6 +12,7 @@ from scrapers.carousell import scrape_carousell, onboard_carousell
 from models.dto import ScrapeDTO, OnboardDTO
 from typing import List
 from ai_insights import generate_product_insights
+
 
 app = FastAPI(root_path="/api")
 
