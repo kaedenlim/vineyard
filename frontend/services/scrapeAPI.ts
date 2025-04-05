@@ -1,25 +1,32 @@
-import axiosClient from './axiosClient'
+import axiosClient from "./axiosClient";
 
-interface ScrapeResults {
-    scraped_data: ScrapeProduct[];
-    timestamp: string;
-    average_price: string;
-    product_type_image?: string;
+export interface ScrapeProduct {
+  title: string;
+  price: string;
+  image?: string;
+  link?: string;
 }
 
-interface ScrapeProduct {
-    title: string;
-    price: string;
-    image?: string;
-    link?: string;
+export interface ScrapeResults {
+  scraped_data: ScrapeProduct[];
+  timestamp: string;
+  average_price: string;
+  product_type_image?: string;
 }
 
-export const scrape = async (product_name : string):Promise<ScrapeResults> => {
-    try {
-        const response = await axiosClient.get<ScrapeResults>(`/scrape/${product_name}`)
-        return response.data
-    } catch (error) {
-        console.error("Error scraping", error);
-        throw error;
-    }
+export interface AllScrapeResults {
+  lazada_results: ScrapeResults;
+  carousell_results: ScrapeResults;
 }
+
+export const scrape = async (product_name: string): Promise<AllScrapeResults> => {
+  try {
+    const response = await axiosClient.post<AllScrapeResults>(
+      `/scrape`, { product: product_name }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error scraping", error);
+    throw error;
+  }
+};
