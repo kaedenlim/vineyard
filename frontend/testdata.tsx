@@ -80,7 +80,7 @@ export const testdata = [
 ];
 
 // testData.ts
-import { ProfileScrapeResponse } from "@/types";
+import { DashboardInsightData, ProductInsightData, ProfileScrapeResponse, RecentActivityInfo } from "@/types";
 
 export const testProfileScrapeResponse: ProfileScrapeResponse = {
   shopee: [
@@ -192,3 +192,66 @@ export const testProfileScrapeResponse: ProfileScrapeResponse = {
     }
   ]
 };
+
+export const testDashboardInsightData:DashboardInsightData = {
+    "product1": [
+      { date: "2025-01-01", price: 10 },
+      { date: "2025-01-02", price: 14 },
+      { date: "2025-01-03", price: 11 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 13 },
+      { date: "2025-01-06", price: 17 },
+      { date: "2025-01-07", price: 12 },
+    ],
+    "product2": [
+      { date: "2025-01-01", price: 12 },
+      { date: "2025-01-02", price: 15 },
+      { date: "2025-01-03", price: 14 },
+      { date: "2025-01-04", price: 18 },
+      { date: "2025-01-05", price: 16 },
+      { date: "2025-01-06", price: 19 },
+      { date: "2025-01-07", price: 17 },
+    ],
+    "product3": [
+      { date: "2025-01-01", price: 18 },
+      { date: "2025-01-02", price: 16 },
+      { date: "2025-01-03", price: 19 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 17 },
+      { date: "2025-01-06", price: 14 },
+      { date: "2025-01-07", price: 16 },
+    ],
+    "product4": [
+      { date: "2025-01-01", price: 20 },
+      { date: "2025-01-02", price: 18 },
+      { date: "2025-01-03", price: 21 },
+      { date: "2025-01-04", price: 17 },
+      { date: "2025-01-05", price: 19 },
+      { date: "2025-01-06", price: 22 },
+      { date: "2025-01-07", price: 20 },
+    ],
+    "product5": [
+      { date: "2025-01-01", price: 14 },
+      { date: "2025-01-02", price: 16 },
+      { date: "2025-01-03", price: 13 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 12 },
+      { date: "2025-01-06", price: 14 },
+      { date: "2025-01-07", price: 13 },
+    ],
+    "product6": [
+      { date: "2025-01-01", price: 22 },
+      { date: "2025-01-02", price: 20 },
+      { date: "2025-01-03", price: 23 },
+      { date: "2025-01-04", price: 19 },
+      { date: "2025-01-05", price: 21 },
+      { date: "2025-01-06", price: 24 },
+      { date: "2025-01-07", price: 22 },
+    ],
+  }
+  
+
+export const testRecentActivityData:RecentActivityInfo[] = [
+    { activity: 'Scraped carousell for "flowers"', date: "24/01/2025" },
+    { activity: 'Detected price change for "flowers"', date: "25/01/2025" },
+]

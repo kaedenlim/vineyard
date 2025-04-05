@@ -51,6 +51,7 @@ export default function Page() {
   return (
     <div className="relative max-w-[80%] mx-auto">
       {loading && <LoadingOverlay text={"Hold on while we set up your profile..."} />}
+      <div className={loading ? "blur-sm pointer-events-none select-none" : ""}>
       {!responseData && (
         <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8 w-full">
         <div className="w-full max-w-md space-y-8">
@@ -116,6 +117,7 @@ export default function Page() {
         </div>
       </div>
       )}
+      </div>
       {responseData && (
         <div className="w-full flex flex-col items-center justify-center min-h-screen py-6 px-8 sm:px-12 lg:px-16">
             <OnboardProductsPage products={responseData} />
