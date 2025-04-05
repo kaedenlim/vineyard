@@ -22,7 +22,7 @@ export default function OnboardProductsPage({ products }: OnboardFormPageProps) 
   const router = useRouter();
 
   return (
-    <div className="space-y-1 max-w-[80%]">
+    <div className="space-y-1 max-w-[70vw]">
         <div className="flex justify-between items-center">
             <div className="text-xl font-semibold">Here are your listings we found:</div>
             <Button onClick={() => router.push("/search")}>Go to Dashboard</Button>
