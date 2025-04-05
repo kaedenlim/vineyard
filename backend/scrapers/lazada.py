@@ -52,7 +52,9 @@ def scrape_lazada(product_name: str):
             page.wait_for_timeout(5000)
 
             # Get all the products on the page and their counts to keep track
-            items = page.locator("div[data-qa-locator='product-item']").all()
+            items_elements = page.locator("div[data-qa-locator='product-item']")
+            total_items = items_elements.count()
+            items = items_elements.all();
 
             scraped_data = []
 
