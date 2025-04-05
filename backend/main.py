@@ -1,10 +1,3 @@
-import sys
-import asyncio
-
-if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-
-
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada, onboard_lazada
@@ -14,7 +7,7 @@ from typing import List
 from ai_insights import generate_product_insights
 
 
-app = FastAPI(root_path="/api")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -36,6 +29,34 @@ def onboard(request: OnboardDTO):
     if request.carousell_url:
         carousell_results = onboard_carousell(str(request.carousell_url))
 
+    # Merge product data and persist it to user
+    merged_results = []
+    for carousell_result in carousell_results:
+        merged_results.append({
+            "title": carousell_result.title,
+            "price": carousell_result.price,
+            "image": carousell_result.image,
+            "link": carousell_result.link,
+            "site": "Carousell"
+        })
+    for lazada_result in lazada_results:
+        merged_results.append({
+            "title": lazada_result.title,
+            "price": lazada_result.price,
+            "image": lazada_result.image,
+            "link": lazada_result.link,
+            "site": "Lazada"
+        })
+    for shopee_result in shopee_results:
+        merged_results.append({
+            "title": shopee_result.title,
+            "price": shopee_result.price,
+            "image": shopee_result.image,
+            "link": shopee_result.link,
+            "site": "Shopee"
+        })
+
+    
     return {
         "shopee": shopee_results,
         "lazada": lazada_results,
@@ -45,22 +66,33 @@ def onboard(request: OnboardDTO):
 @app.post("/scrape")
 def scrape(scrape_request: ScrapeDTO):
     # this scrapes for lazada, default is 1 page to scrape (avoid bot detection)
-    lazada_results = scrape_lazada(scrape_request.product)
+    # lazada_results = scrape_lazada(scrape_request.product)
     carousell_results = scrape_carousell(scrape_request.product)
     
-    # return all scraped data and the average value
-    return {"lazada_results": lazada_results, "carousell_results": carousell_results}
+    insights_data = {
+        # "lazada_average_price": lazada_results.average_price,
+        "carousell_average_price": carousell_results.average_price,
+        # "lazada_top_listings": lazada_results.top_listings,
+        "carousell_top_listings": carousell_results.top_listings
+    }
+    
+    insights = generate_product_insights({
+        "product_name": scrape_request.product,
+        "insights_data": insights_data
+    })
 
-@app.post("/insights/{product_name}")
-async def get_insights(product_name: str, request: Request):
+    return { "carousell_results": carousell_results, "insights": insights}
+    # return {"lazada_results": lazada_results,  "carousell_results": carousell_results, "insights_data": insights_data}
+
+@app.post("/insights")
+def get_insights(request: Request):
     # Get the scraped data from the request body
-    data = await request.json()
-    scraped_data = data['all_scraped_data']
-    print(scraped_data)
+    data = request.json()
+
     # Generate AI insights using the provided scraped data
     insights = generate_product_insights({
-        "product_name": product_name,
-        "scraped_data": scraped_data
+        "product_name": data['product_name'],
+        "insights_data": data['insights_data']
     })
     print(insights)
     
