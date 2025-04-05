@@ -33,26 +33,26 @@ def onboard(request: OnboardDTO):
     merged_results = []
     for carousell_result in carousell_results:
         merged_results.append({
-            "title": carousell_result.title,
-            "price": carousell_result.price,
-            "image": carousell_result.image,
-            "link": carousell_result.link,
+            "title": carousell_result['title'],
+            "price": carousell_result['price'],
+            "image": carousell_result['image'],
+            "link": carousell_result['link'],
             "site": "Carousell"
         })
     for lazada_result in lazada_results:
         merged_results.append({
-            "title": lazada_result.title,
-            "price": lazada_result.price,
-            "image": lazada_result.image,
-            "link": lazada_result.link,
+            "title": lazada_result['title'],
+            "price": lazada_result['price'],
+            "image": lazada_result['image'],
+            "link": lazada_result['link'],
             "site": "Lazada"
         })
     for shopee_result in shopee_results:
         merged_results.append({
-            "title": shopee_result.title,
-            "price": shopee_result.price,
-            "image": shopee_result.image,
-            "link": shopee_result.link,
+            "title": shopee_result['title'],
+            "price": shopee_result['price'],
+            "image": shopee_result['image'],
+            "link": shopee_result['link'],
             "site": "Shopee"
         })
 
