@@ -40,3 +40,10 @@
 **/__pycache__
 
 env
+.env
+
+# direnv
+.direnv
+.envrc
+
+.vscode
