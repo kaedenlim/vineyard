@@ -43,7 +43,7 @@ def generate_product_insights(product_data: Dict) -> str:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a product analysis expert providing insights about market prices and trends."},
+                {"role": "system", "content": "You are a product analysis expert providing insights about market prices and trends. Be consise and give actionable insights that are less than 3 sentences in total."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
