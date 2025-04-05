@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada
 from scrapers.carousell import scrape_carousell
@@ -24,20 +24,19 @@ def scrape(product_name: str):
     # return all scraped data and the average value
     return {"lazada_results": lazada_results, "carousell_results": carousell_results}
 
-@app.get("/insights/{product_name}")
-def get_insights(product_name: str):
-    # First get the product data
-    product_data = {
+@app.post("/insights/{product_name}")
+async def get_insights(product_name: str, request: Request):
+    # Get the scraped data from the request body
+    data = await request.json()
+    scraped_data = data['all_scraped_data']
+    print(scraped_data)
+    # Generate AI insights using the provided scraped data
+    insights = generate_product_insights({
         "product_name": product_name,
-        "lazada_results": scrape_lazada(product_name, 1),
-        "carousell_results": scrape_carousell(product_name)
-    }
-    
-    # Generate AI insights
-    insights = generate_product_insights(product_data)
+        "scraped_data": scraped_data
+    })
     print(insights)
     
     return {
-        "product_data": product_data,
         "insights": insights
     }
