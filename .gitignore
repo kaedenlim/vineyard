@@ -47,3 +47,6 @@ env
 .envrc
 
 .vscode
+
+.venv
+*/.venv
