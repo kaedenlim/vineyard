@@ -109,7 +109,7 @@ export default function Page() {
             </div>
             <div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Submitting..." : "Submit"}
+                {loading ? "Getting Products..." : "Get Products"}
               </Button>
             </div>
           </form>

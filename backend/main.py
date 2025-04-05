@@ -4,12 +4,15 @@ import asyncio
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
-from fastapi import FastAPI
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada, onboard_lazada
 from scrapers.carousell import scrape_carousell, onboard_carousell
 from models.dto import ScrapeDTO, OnboardDTO
 from typing import List
+from ai_insights import generate_product_insights
+
 
 app = FastAPI(root_path="/api")
 
@@ -47,3 +50,20 @@ def scrape(scrape_request: ScrapeDTO):
     
     # return all scraped data and the average value
     return {"lazada_results": lazada_results, "carousell_results": carousell_results}
+
+@app.post("/insights/{product_name}")
+async def get_insights(product_name: str, request: Request):
+    # Get the scraped data from the request body
+    data = await request.json()
+    scraped_data = data['all_scraped_data']
+    print(scraped_data)
+    # Generate AI insights using the provided scraped data
+    insights = generate_product_insights({
+        "product_name": product_name,
+        "scraped_data": scraped_data
+    })
+    print(insights)
+    
+    return {
+        "insights": insights
+    }

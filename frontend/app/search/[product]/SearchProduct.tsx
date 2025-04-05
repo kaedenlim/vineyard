@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, Bell, User } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, Bell, User } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { PriceGraph } from "@/components/price-graph"
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { PriceGraph } from "@/components/price-graph";
 
 // Sample pricing data
 const shopeeData = [
@@ -17,7 +17,7 @@ const shopeeData = [
   { date: "2023-02-01", price: 16.8 },
   { date: "2023-02-15", price: 16.0 },
   { date: "2023-03-01", price: 15.84 },
-]
+];
 
 const lazadaData = [
   { date: "2023-01-01", price: 15.7 },
@@ -25,7 +25,7 @@ const lazadaData = [
   { date: "2023-02-01", price: 17.8 },
   { date: "2023-02-15", price: 15.35 },
   { date: "2023-03-01", price: 17.01 },
-]
+];
 
 const carousellData = [
   { date: "2023-01-01", price: 17.78 },
@@ -33,49 +33,53 @@ const carousellData = [
   { date: "2023-02-01", price: 21.65 },
   { date: "2023-02-15", price: 23.98 },
   { date: "2023-03-01", price: 21.43 },
-]
+];
 
 export default function SearchProduct() {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   // Retrieve the query parameter "q"; if not provided, fall back to "sunscreen"
-  const initialSearchTerm = searchParams.get("q") || "sunscreen"
-  const [isClient, setIsClient] = useState(false)
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
+  const initialSearchTerm = searchParams.get("q") || "sunscreen";
+  const [isClient, setIsClient] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [productImage, setProductImage] = useState(
-    "https://img.lazcdn.com/g/p/303c7d35af6fefd40c2cee2309a50886.jpg_200x200q80.jpg_.webp",
-  )
-  const [alertsOn, setAlertsOn] = useState(false)
+    "https://img.lazcdn.com/g/p/303c7d35af6fefd40c2cee2309a50886.jpg_200x200q80.jpg_.webp"
+  );
+  const [alertsOn, setAlertsOn] = useState(false);
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
     // Inject the search term into the endpoint URL
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/scrape/${encodeURIComponent(searchTerm)}`)
-        const data = await res.json()
+        const res = await fetch(
+          `http://127.0.0.1:8000/scrape/${encodeURIComponent(searchTerm)}`
+        );
+        const data = await res.json();
 
         // Get the first image URL from the scraped_data array provided by the endpoint.
-        if (data?.lazada_results?.scraped_data?.length && data.lazada_results.scraped_data[0].image) {
-          setProductImage(data.lazada_results.scraped_data[0].image)
+        if (
+          data?.lazada_results?.scraped_data?.length &&
+          data.lazada_results.scraped_data[0].image
+        ) {
+          setProductImage(data.lazada_results.scraped_data[0].image);
         } else {
           // Fallback: use product_type_image if scraped_data is empty or no image exists.
-          setProductImage(data.lazada_results.product_type_image)
+          setProductImage(data.lazada_results.product_type_image);
         }
       } catch (error) {
-        console.error("Error fetching search results:", error)
+        console.error("Error fetching search results:", error);
       }
-    }
-    fetchData()
-  }, [searchTerm])
+    };
+    // fetchData()
+  }, [searchTerm]);
 
   // Toggle alerts on/off
   const toggleAlerts = () => {
-    setAlertsOn((prev) => !prev)
-  }
+    setAlertsOn((prev) => !prev);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       {/* Main Content */}
       <div className="ml-64 p-6">
         {/* Header */}
@@ -110,7 +114,10 @@ export default function SearchProduct() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button onClick={toggleAlerts} className="bg-black hover:bg-black/90">
+              <Button
+                onClick={toggleAlerts}
+                className="bg-black hover:bg-black/90"
+              >
                 <Bell className="mr-2 h-4 w-4" />
                 {alertsOn ? "Alerts On" : "Alerts Off"}
               </Button>
@@ -131,7 +138,9 @@ export default function SearchProduct() {
                     </div>
                     {/* Price info */}
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-green-500">Lowest in 30 days</span>
+                      <span className="text-xs text-green-500">
+                        Lowest in 30 days
+                      </span>
                       <span className="text-base font-bold">$15.84</span>
                     </div>
                   </div>
@@ -161,7 +170,9 @@ export default function SearchProduct() {
                     </div>
                     {/* Price info */}
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-red-500">Was $15.35 2 days ago</span>
+                      <span className="text-xs text-red-500">
+                        Was $15.35 2 days ago
+                      </span>
                       <span className="text-base font-bold">$17.01</span>
                     </div>
                   </div>
@@ -191,7 +202,9 @@ export default function SearchProduct() {
                     </div>
                     {/* Price info */}
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-red-500">Was $17.78 17 days ago</span>
+                      <span className="text-xs text-red-500">
+                        Was $17.78 17 days ago
+                      </span>
                       <span className="text-base font-bold">$21.43</span>
                     </div>
                   </div>
@@ -213,17 +226,22 @@ export default function SearchProduct() {
             <Card className="p-6">
               <h2 className="mb-4 text-xl font-bold">Vineyard AI Insights</h2>
               <p className="text-muted-foreground">
-                Birch Moisturizing Sunscreen is a <span className="font-medium">dual-function skincare product</span>{" "}
-                designed to provide broad-spectrum sun protection while delivering{" "}
-                <span className="font-medium">deep hydration</span>. Infused with{" "}
-                <span className="font-medium">natural birch sap extract</span>, it offers a{" "}
-                <span className="font-medium">lightweight, non-greasy</span> formula suitable for daily use.
+                Birch Moisturizing Sunscreen is a{" "}
+                <span className="font-medium">
+                  dual-function skincare product
+                </span>{" "}
+                designed to provide broad-spectrum sun protection while
+                delivering <span className="font-medium">deep hydration</span>.
+                Infused with{" "}
+                <span className="font-medium">natural birch sap extract</span>,
+                it offers a{" "}
+                <span className="font-medium">lightweight, non-greasy</span>{" "}
+                formula suitable for daily use.
               </p>
             </Card>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
