@@ -1,7 +1,7 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from typing import List, Dict
+from typing import Dict
 
 # Load environment variables from .env file
 load_dotenv()
@@ -30,7 +30,7 @@ def generate_product_insights(product_data: Dict) -> str:
     Product Name: {product_data['product_name']}
     
     Scraped Results:
-    {product_data['scraped_data']}
+    {product_data['insights_data']}
     
     Please provide:
     1. Price analysis and comparison
@@ -43,7 +43,7 @@ def generate_product_insights(product_data: Dict) -> str:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a product analysis expert providing insights about market prices and trends. Be consise and give actionable insights that are less than 3 sentences in total."},
+                {"role": "system", "content": "You are a product analysis expert providing insights about market prices and trends. Be consise and give actionable insights on the price and title to use that are less than 3 sentences in total."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
