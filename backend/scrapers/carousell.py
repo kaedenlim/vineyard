@@ -35,7 +35,7 @@ def scrape_carousell(product_name: str):
         
         page.wait_for_selector("div[data-testid^='listing-card-']", timeout=10000)
 
-        MAX_PAGES = 3
+        MAX_PAGES = 1
         for _ in range(MAX_PAGES):
             show_more_button = page.locator("button", has_text="Show more results")
             if show_more_button.count() == 0:

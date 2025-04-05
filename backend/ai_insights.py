@@ -27,13 +27,10 @@ def generate_product_insights(product_data: Dict) -> str:
     prompt = f"""
     Analyze the following product data and provide insights:
     
-    Product Name: {product_data.get('product_name', 'Unknown')}
+    Product Name: {product_data['product_name']}
     
-    Lazada Results:
-    {product_data.get('lazada_results', [])}
-    
-    Carousell Results:
-    {product_data.get('carousell_results', [])}
+    Scraped Results:
+    {product_data['scraped_data']}
     
     Please provide:
     1. Price analysis and comparison
