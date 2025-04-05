@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
+from models.model import Product, ScrapeResult
 import random
 import re
 
@@ -55,6 +56,9 @@ def scrape_carousell(product_name: str):
             print("No listings found")
             browser.close()
 
+        top_listings = []
+        top_listings_count = 10;
+
         for listing in listings:
             try:
                 # Extract seller username
@@ -83,15 +87,20 @@ def scrape_carousell(product_name: str):
 
                 url = BASE_URL + relative_link if relative_link else "N/A"
 
+                product = Product(
+                    title=product_title,
+                    price=price,
+                    discount=discount,
+                    image=image,
+                    link=url,
+                    page_ranking=total_items + 1
+                )
                 # Save data
-                scraped_data.append({
-                    "title": product_title,
-                    "price": price,
-                    "discount": discount,
-                    "image": image,
-                    "link": url,
-                    "page_ranking": total_items + 1
-                })
+                scraped_data.append(product)
+
+                if top_listings_count > 0:
+                    top_listings.append(product)
+                    top_listings_count -= 1
 
                 total_items += 1
                 total_price += price
@@ -110,11 +119,14 @@ def scrape_carousell(product_name: str):
         # Get current time in Singapore Time (ISO format)
         current_time_sgt = datetime.now(sgt_timezone).isoformat() + "Z"
 
-        scraped_data_with_timestamp["items"] = scraped_data
-        scraped_data_with_timestamp["timestamp"] = current_time_sgt
-        scraped_data_with_timestamp["average_price"] = average_price
+        carousell = ScrapeResult(
+            scraped_data=scraped_data,
+            timestamp=current_time_sgt,
+            average_price=average_price,
+            top_listings=top_listings
+        )
 
-        return scraped_data_with_timestamp
+        return carousell
 
 def onboard_carousell(profile_url: str):
     with sync_playwright() as p:
@@ -148,7 +160,6 @@ def onboard_carousell(profile_url: str):
             print("No listings found")
             browser.close()
 
-        counter = 0
         for listing in listings:
             try:
                 # Extract product status
