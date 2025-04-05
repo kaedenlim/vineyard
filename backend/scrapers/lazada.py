@@ -70,7 +70,7 @@ def scrape_lazada(product_name: str):
                     if discount_element.count() > 0:
                         item_discount = 1 - (item_price / float(discount_element.text_content().strip("'$'")))
 
-                    full_item_url = "https:" + item_link
+                    full_item_url = "https://lazada.sg" + item_link
 
                     product = Product(
                         title=item_title,
