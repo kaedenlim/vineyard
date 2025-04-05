@@ -1,10 +1,18 @@
+import sys
+import asyncio
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from scrapers.lazada import scrape_lazada
-from scrapers.carousell import scrape_carousell
+from scrapers.lazada import scrape_lazada, onboard_lazada
+from scrapers.carousell import scrape_carousell, onboard_carousell
+from models.dto import ScrapeDTO, OnboardDTO
+from typing import List
 from ai_insights import generate_product_insights
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,13 +22,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/scrape/{product_name}")
-def scrape(product_name: str):
-    # this scrapes for lazada, the 1 is for the no of pages to scrape (avoid bot detection)
-    lazada_results = scrape_lazada(product_name, 1)
-    print(lazada_results)
-    carousell_results = scrape_carousell(product_name)
-    print(carousell_results)
+@app.post("/onboard")
+def onboard(request: OnboardDTO):
+    carousell_results = []
+    lazada_results = []
+    shopee_results = []
+    
+    if request.lazada_url:
+        lazada_results = onboard_lazada(str(request.lazada_url))
+
+    if request.carousell_url:
+        carousell_results = onboard_carousell(str(request.carousell_url))
+
+    return {
+        "shopee": shopee_results,
+        "lazada": lazada_results,
+        "carousell": carousell_results
+    }
+
+@app.post("/scrape")
+def scrape(scrape_request: ScrapeDTO):
+    # this scrapes for lazada, default is 1 page to scrape (avoid bot detection)
+    lazada_results = scrape_lazada(scrape_request.product)
+    carousell_results = scrape_carousell(scrape_request.product)
+    
     # return all scraped data and the average value
     return {"lazada_results": lazada_results, "carousell_results": carousell_results}
 
