@@ -1,9 +1,18 @@
-"use client"
+"use client";
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/Nav";
+
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,31 +30,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname()
-  const isLandingPage = pathname === '/'
-  
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {isLandingPage ? (
-          // Landing page - no flex layout needed
-          <main>
-            {children}
-          </main>
-        ) : (
-          // Non-landing pages - apply flex layout to both Nav and content
-          <main>
-            <div className="flex">
-              <Nav />
-              <div className="flex-1">
-                {children}
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {isLandingPage ? (
+            // Landing page - no flex layout needed
+            <main>{children}</main>
+          ) : (
+            // Non-landing pages - apply flex layout to both Nav and content
+            <main>
+              <div className="flex">
+                <Nav />
+                <div className="flex-1">{children}</div>
               </div>
-            </div>
-          </main>
-        )}
-      </body>
-    </html>
+            </main>
+          )}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
