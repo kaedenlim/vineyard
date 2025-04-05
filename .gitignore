@@ -48,5 +48,5 @@ env
 
 .vscode
 
-.venv
+**/venv
 */.venv
