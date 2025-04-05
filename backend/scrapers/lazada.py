@@ -1,4 +1,3 @@
-# import nest_asyncio; nest_asyncio.apply()  # This is needed to use sync API in repl 
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
 
@@ -26,40 +25,45 @@ def scrape_lazada(product_name: str):
         # Might cause issues if first image is embedded image, need to have default picture
         product_type_image = page.locator("img[type=product]").first.get_attribute("src")
 
-        while times > 0:
+        while times:
+            times -= 1;
             page.wait_for_timeout(5000)
 
             # Get all the products on the page and their counts to keep track
-            items = page.locator("div[data-qa-locator='product-item']")
-            no_items = items.count()
+            items_locator = page.locator("div[data-qa-locator='product-item']")
+            no_items = items_locator.count()
             total_items += no_items
+
+            items = items_locator.all()
 
             scraped_data = []
 
-            for i in range(no_items):
-                item_title = items.nth(i).locator("a[title]")
-                item_price = items.nth(i).locator(".ooOxS")
-                item_image = items.nth(i).locator("img[type=product]").get_attribute("src")
-                item_link = items.nth(i).locator("a[title][href]").get_attribute("href")
-                
-                stripped_price = item_price.text_content().strip("'$'") if item_price else None
-                total_price += float(stripped_price)
-                full_item_url = "https:" + item_link if item_link else None
+            for item in items:
+                try:
+                    item_title = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").text_content()
+                    item_link = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[href]").nth(0).get_attribute("href")
+                    item_price = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
+                    item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[src]").get_attribute("src")
+                    
+                    stripped_price = item_price.strip("'$'")
+                    full_item_url = "https:" + item_link
 
-                scraped_data.append({
-                    "title": item_title.text_content() if item_title else None,
-                    "price": stripped_price if stripped_price else None,
-                    "image": item_image if item_image.startswith("https://img.lazcdn") else None,
-                    "link": full_item_url
-                })
+                    scraped_data.append({
+                        "title": item_title,
+                        "price": stripped_price,
+                        "image": item_image if item_image.startswith("https://img.lazcdn") else "",
+                        "link": full_item_url
+                    })
             
-            button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
-            if button.is_visible() and button.get_attribute("disabled") is None:
-                times -= 1
-                button.click()
-            else:
-                print("No more pages left.")
-                break
+                # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
+                # if button.is_visible() and button.get_attribute("disabled") is None:
+                #     times -= 1
+                #     button.click()
+                # else:
+                #     print("No more pages left.")
+                #     break
+                except Exception as e:
+                    print(f"Error extracting a listing: {e}")
         
         # Get average price for the product
         average_price = total_price / total_items
@@ -92,34 +96,35 @@ def onboard_lazada(profile_url: str):
             page.wait_for_timeout(5000)
 
             # Get all the products on the page and their counts to keep track
-            items = page.locator("div[data-qa-locator='product-item']")
-            no_items = items.count()
-            print(no_items)
+            items = page.locator("div[data-qa-locator='product-item']").all()
 
             scraped_data = []
 
-            for i in range(no_items):
-                item_title = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").nth(0).get_attribute("title")
-                item_link = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").nth(0).get_attribute("href")
-                item_price = items.nth(i).locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
-                item_image = items.nth(i).locator("div:first-child div:first-child div:first-child div:first-child a:first-child div:first-child img:first-child").nth(0).get_attribute("src")
-                
-                stripped_price = item_price.strip("'$'") if item_price else None
-                full_item_url = "https:" + item_link if item_link else None
+            for item in items:
+                try:
+                    item_title = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a:first-child").text_content()
+                    item_link = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[href]").nth(0).get_attribute("href")
+                    item_price = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
+                    item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[src]").get_attribute("src")
+                    
+                    stripped_price = item_price.strip("'$'")
+                    full_item_url = "https:" + item_link
 
-                scraped_data.append({
-                    "title": item_title if item_title else None,
-                    "price": stripped_price if stripped_price else None,
-                    "image": item_image if item_image.startswith("https://img.lazcdn") else None,
-                    "link": full_item_url
-                })
+                    scraped_data.append({
+                        "title": item_title,
+                        "price": stripped_price,
+                        "image": item_image if item_image.startswith("https://img.lazcdn") else "",
+                        "link": full_item_url
+                    })
             
-            # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
-            # if button.is_visible() and button.get_attribute("disabled") is None:
-            #     times -= 1
-            #     button.click()
-            # else:
-            #     print("No more pages left.")
-            #     break
+                # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
+                # if button.is_visible() and button.get_attribute("disabled") is None:
+                #     times -= 1
+                #     button.click()
+                # else:
+                #     print("No more pages left.")
+                #     break
+                except Exception as e:
+                    print(f"Error extracting a listing: {e}")
 
         return scraped_data
