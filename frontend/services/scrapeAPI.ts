@@ -21,7 +21,7 @@ export interface AllScrapeResults {
 
 export const scrape = async (product_name: string): Promise<AllScrapeResults> => {
   try {
-    const response = await axiosClient.get<AllScrapeResults>(
+    const response = await axiosClient.post<AllScrapeResults>(
       `/scrape/${product_name}`
     );
     return response.data;
