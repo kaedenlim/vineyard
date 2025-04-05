@@ -7,6 +7,7 @@
  import { ProductActivityResponse, DashboardProductCard, RecentActivityInfo } from "@/types";
  import { getMyProductsAndActivity } from "@/services/dashboardAPI";
  import LoadingOverlay from "@/components/LoadingOverlay";
+ import { useUser } from "@clerk/nextjs";
  
  export default function Page() {
     // call axios endpoint here, get {products, activities} and put it into recentactivity and products
@@ -15,10 +16,13 @@
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const {user} = useUser();
+    const currentUsername = user?.username ?? "";
+
     useEffect(() => {
         async function fetchDashboardData() {
         try {
-            const data = await getMyProductsAndActivity("some-id");
+            const data = await getMyProductsAndActivity(currentUsername);
             const {products,activities} = data;
             setProductData(products);
             setActivityData(activities);
