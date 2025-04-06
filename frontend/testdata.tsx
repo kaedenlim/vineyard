@@ -80,7 +80,7 @@ export const testdata = [
 ];
 
 // testData.ts
-import { ProfileScrapeResponse } from "@/types";
+import { DashboardInsightData, DashboardProductCard, ProductInsightData, ProfileScrapeResponse, RecentActivityInfo } from "@/types";
 
 export const testProfileScrapeResponse: ProfileScrapeResponse = {
   shopee: [
@@ -192,3 +192,109 @@ export const testProfileScrapeResponse: ProfileScrapeResponse = {
     }
   ]
 };
+
+export const testDashboardInsightData:DashboardInsightData = {
+    "sunscreen": [
+      { date: "2025-01-01", price: 10 },
+      { date: "2025-01-02", price: 14 },
+      { date: "2025-01-03", price: 11 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 13 },
+      { date: "2025-01-06", price: 17 },
+      { date: "2025-01-07", price: 12 },
+    ],
+    "soap": [
+      { date: "2025-01-01", price: 12 },
+      { date: "2025-01-02", price: 15 },
+      { date: "2025-01-03", price: 14 },
+      { date: "2025-01-04", price: 18 },
+      { date: "2025-01-05", price: 16 },
+      { date: "2025-01-06", price: 19 },
+      { date: "2025-01-07", price: 17 },
+    ],
+    "flowers": [
+      { date: "2025-01-01", price: 18 },
+      { date: "2025-01-02", price: 16 },
+      { date: "2025-01-03", price: 19 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 17 },
+      { date: "2025-01-06", price: 14 },
+      { date: "2025-01-07", price: 16 },
+    ],
+    "lego": [
+      { date: "2025-01-01", price: 20 },
+      { date: "2025-01-02", price: 18 },
+      { date: "2025-01-03", price: 21 },
+      { date: "2025-01-04", price: 17 },
+      { date: "2025-01-05", price: 19 },
+      { date: "2025-01-06", price: 22 },
+      { date: "2025-01-07", price: 20 },
+    ],
+    "sweatpants": [
+      { date: "2025-01-01", price: 14 },
+      { date: "2025-01-02", price: 16 },
+      { date: "2025-01-03", price: 13 },
+      { date: "2025-01-04", price: 15 },
+      { date: "2025-01-05", price: 12 },
+      { date: "2025-01-06", price: 14 },
+      { date: "2025-01-07", price: 13 },
+    ],
+    "shirt": [
+      { date: "2025-01-01", price: 22 },
+      { date: "2025-01-02", price: 20 },
+      { date: "2025-01-03", price: 23 },
+      { date: "2025-01-04", price: 19 },
+      { date: "2025-01-05", price: 21 },
+      { date: "2025-01-06", price: 24 },
+      { date: "2025-01-07", price: 22 },
+    ],
+  }
+  
+
+export const testRecentActivityData:RecentActivityInfo[] = [
+    { activity: 'Scraped carousell for "flowers"', date: "24/01/2025" },
+    { activity: 'Detected price change for "flowers"', date: "25/01/2025" },
+]
+
+export const testDashboardProductData:DashboardProductCard[] = [
+  {
+      "link": "https://www.carousell.sg/p/skintific-matte-fit-serum-sunscreen-1353753830/?t-id=XTJAKV61W6_1740241617715",
+      "image": "https://media.karousell.com/media/photos/products/2025/2/18/skintific_matte_fit_serum_suns_1739892207_4fe0484b_progressive_thumbnail.jpg",
+      "title": "Skintific matte fit serum sunscreen",
+      "price": 9.5,
+      "site": "Carousell",
+      "created_at": "05/04/2025"
+  },
+  {
+      "link": "https://www.carousell.sg/p/beauty-of-joseon-sunscreen-1352957094/?t-id=XTJAKV61W6_1740241617715",
+      "image": "https://media.karousell.com/media/photos/products/2025/2/14/beauty_of_joseon_sunscreen_1739526937_50ee80a1_progressive_thumbnail.jpg",
+      "title": "Beauty of Joseon Sunscreen",
+      "price": 15.0,
+      "site": "Lazada",
+      "created_at": "05/04/2025"
+  },
+  {
+      "link": "https://www.carousell.sg/p/beauty-of-joseon-sunscreen-1352957094/?t-id=XTJAKV61W6_1740241617715",
+      "image": "https://media.karousell.com/media/photos/products/2025/2/14/beauty_of_joseon_sunscreen_1739526937_50ee80a1_progressive_thumbnail.jpg",
+      "title": "Beauty of Joseon Sunscreen",
+      "price": 15.0,
+      "site": "Lazada",
+      "created_at": "05/04/2025"
+  },
+  {
+      "link": "https://www.carousell.sg/p/beauty-of-joseon-sunscreen-1352957094/?t-id=XTJAKV61W6_1740241617715",
+      "image": "https://media.karousell.com/media/photos/products/2025/2/14/beauty_of_joseon_sunscreen_1739526937_50ee80a1_progressive_thumbnail.jpg",
+      "title": "Beauty of Joseon Sunscreen",
+      "price": 15.0,
+      "site": "Lazada",
+      "created_at": "05/04/2025"
+  },
+  {
+      "link": "https://www.carousell.sg/p/beauty-of-joseon-sunscreen-1352957094/?t-id=XTJAKV61W6_1740241617715",
+      "image": "https://media.karousell.com/media/photos/products/2025/2/14/beauty_of_joseon_sunscreen_1739526937_50ee80a1_progressive_thumbnail.jpg",
+      "title": "Beauty of Joseon Sunscreen",
+      "price": 15.0,
+      "site": "Lazada",
+      "created_at": "05/04/2025"
+  }
+]

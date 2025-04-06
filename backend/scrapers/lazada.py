@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
 from models.model import Product, ScrapeResult
 import random
+import re
 
 USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -9,6 +10,11 @@ USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
 ]
+
+def extract_price(price_str):
+    """Extracts numerical value from a currency string."""
+    cleaned = re.sub(r"[^\d.]", "", price_str)
+    return float(cleaned) # if "." in cleaned else int(cleaned)
 
 def scrape_lazada(product_name: str):
     times = 1;
@@ -44,19 +50,17 @@ def scrape_lazada(product_name: str):
         total_price = 0.0
         
         top_listings = []
-        top_listings_count = 10;
+        top_listings_count = 10
 
         rank = 1;
         while times:
-            times -= 1;
+            times -= 1
             page.wait_for_timeout(5000)
 
             # Get all the products on the page and their counts to keep track
-            items_locator = page.locator("div[data-qa-locator='product-item']")
-            no_items = items_locator.count()
-            total_items += no_items
-
-            items = items_locator.all()
+            items_elements = page.locator("div[data-qa-locator='product-item']")
+            total_items = items_elements.count()
+            items = items_elements.all();
 
             scraped_data = []
 
@@ -64,15 +68,15 @@ def scrape_lazada(product_name: str):
                 try:
                     item_title = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[title]").text_content()
                     item_link = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[href]").nth(0).get_attribute("href")
-                    item_price = float(item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content().strip("'$'"))
+                    item_price = extract_price(item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content())
                     item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[type='product']").get_attribute("src")
                     
-                    discount_element = items.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(4) span:first-child del")
+                    discount_element = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(4) span:first-child del")
                     item_discount = 0
                     if discount_element.count() > 0:
-                        item_discount = 1 - (item_price / float(discount_element.text_content().strip("'$'")))
+                        item_discount = 1 - (item_price / extract_price(discount_element.text_content()))
 
-                    full_item_url = "https:" + item_link
+                    full_item_url = "https://lazada.sg" + item_link if not item_link.startswith("https://lazada.sg") else item_link
 
                     product = Product(
                         title=item_title,
@@ -154,7 +158,7 @@ def onboard_lazada(profile_url: str):
                     item_price = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
                     item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[src]").get_attribute("src")
                     
-                    stripped_price = item_price.strip("'$'")
+                    stripped_price = float(item_price.strip("'$'"))
                     full_item_url = "https:" + item_link
 
                     scraped_data.append({
