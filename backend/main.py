@@ -2,12 +2,12 @@ from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from scrapers.lazada import scrape_lazada, onboard_lazada
 from scrapers.carousell import scrape_carousell, onboard_carousell
-from models.dto import ScrapeDTO, OnboardDTO, DashboardDTO
-from typing import List
+from models.dto import ScrapeDTO, OnboardDTO, UsernameDTO
 from ai_insights import generate_product_insights
-from database import get_db, DBUserProduct, DBUserActivity, DBUser
+from database import get_db, DBUserProduct, DBUserActivity, DBUser, DBScrapeProduct, DBScrapeResult
 from sqlalchemy.orm import Session
 
+import json
 import sys
 import asyncio
 
@@ -118,6 +118,47 @@ def scrape(scrape_request: ScrapeDTO, db: Session = Depends(get_db)):
         "insights_data": insights_data
     })
 
+    # Create scrape result record
+    scrape_result = DBScrapeResult(
+        user_id=user.id,
+        product_query=scrape_request.product,
+        lazada_average_price=lazada_results.average_price,
+        carousell_average_price=carousell_results.average_price,
+        insights=json.dumps(insights)  # Convert insights to JSON string
+    )
+    db.add(scrape_result)
+    db.flush() 
+
+        # Save Lazada products
+    for product in lazada_results.scraped_data:
+        db_product = DBScrapeProduct(
+            scrape_result_id=scrape_result.id,
+            title=product.title,
+            price=product.price,
+            discount=product.discount if hasattr(product, 'discount') else None,
+            image=product.image,
+            link=product.link,
+            site="Lazada",
+            page_ranking=product.page_ranking if hasattr(product, 'page_ranking') else None
+        )
+        db.add(db_product)
+    
+    # Save Carousell products
+    for product in carousell_results.scraped_data:
+        db_product = DBScrapeProduct(
+            scrape_result_id=scrape_result.id,
+            title=product.title,
+            price=product.price,
+            discount=product.discount if hasattr(product, 'discount') else None,
+            image=product.image,
+            link=product.link,
+            site="Carousell",
+            page_ranking=product.page_ranking if hasattr(product, 'page_ranking') else None
+        )
+        db.add(db_product)
+    
+    db.commit()
+
     return {"lazada_results": lazada_results, "carousell_results": carousell_results, "insights": insights}
 
 @app.post("/insights")
@@ -137,7 +178,7 @@ def get_insights(request: Request):
     }
 
 @app.post("/dashboard")
-def dashboard(dto: DashboardDTO, db: Session = Depends(get_db)):
+def dashboard(dto: UsernameDTO, db: Session = Depends(get_db)):
     # Get user
     user = db.query(DBUser).filter(DBUser.username == dto.username).first()
     if not user:
@@ -176,3 +217,65 @@ def dashboard(dto: DashboardDTO, db: Session = Depends(get_db)):
     }
     
     return dashboard
+
+@app.post("/history")
+def history(dto: UsernameDTO, db: Session = Depends(get_db)):
+    # Get user
+    user = db.query(DBUser).filter(DBUser.username == dto.username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Get user's scrape history
+    scrape_results = (
+        db.query(DBScrapeResult)
+        .filter(DBScrapeResult.user_id == user.id)
+        .order_by(DBScrapeResult.timestamp.desc())
+        .all()
+    )
+    
+    # Format response
+    history_items = []
+    
+    for result in scrape_results:
+        # Get related products
+        products = db.query(DBScrapeProduct).filter(
+            DBScrapeProduct.scrape_result_id == result.id
+        ).all()
+        
+        lazada_products = [
+            {
+                "title": p.title,
+                "price": p.price,
+                "discount": p.discount,
+                "image": p.image,
+                "link": p.link,
+                "page_ranking": p.page_ranking
+            }
+            for p in products if p.site == "Lazada"
+        ]
+        
+        carousell_products = [
+            {
+                "title": p.title,
+                "price": p.price,
+                "discount": p.discount,
+                "image": p.image,
+                "link": p.link,
+                "page_ranking": p.page_ranking
+            }
+            for p in products if p.site == "Carousell"
+        ]
+        
+        history_items.append({
+            "product_query": result.product_query,
+            "timestamp": result.timestamp.strftime("%d/%m/%Y %H:%M"),
+            "lazada_average_price": result.lazada_average_price,
+            "carousell_average_price": result.carousell_average_price,
+            "insights": json.loads(result.insights) if result.insights else None,
+            "lazada_products": lazada_products,
+            "carousell_products": carousell_products
+        })
+    
+    return {
+        "history": history_items
+    }

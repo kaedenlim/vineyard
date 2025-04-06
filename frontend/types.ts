@@ -44,3 +44,26 @@ export type ProductActivityResponse = {
     products: DashboardProductCard[];
     activities: RecentActivityInfo[];
 }
+
+export type HistoryProductCard = {
+    title: string;
+    price: number;
+    image: string;
+    link: string;
+    discount: number;
+    page_ranking: number;
+}
+
+export type HistoryProductQuery = {
+    product_query: string;
+    carousell_average_price: number;
+    lazada_average_price: number;
+    timestamp: string;
+    insights: string;
+    lazada_products: HistoryProductCard[];
+    carousell_products: HistoryProductCard[];
+}
+
+export type HistoryResponse = {
+    history: HistoryProductQuery[];
+}

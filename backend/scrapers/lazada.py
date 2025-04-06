@@ -19,7 +19,7 @@ def extract_price(price_str):
 def scrape_lazada(product_name: str):
     times = 1;
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=False)
+        browser = pw.chromium.launch(headless=True)
         context = browser.new_context(
             viewport={"width": 1920, "height": 1080},
             user_agent=random.choice(USER_AGENTS),
@@ -68,7 +68,10 @@ def scrape_lazada(product_name: str):
                 try:
                     item_title = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[title]").text_content()
                     item_link = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(2) a[href]").nth(0).get_attribute("href")
-                    item_price = extract_price(item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content())
+                    item_price_pre = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(3) span:first-child").text_content()
+                    item_price = 0
+                    if item_price_pre != '':
+                        item_price = extract_price(item_price_pre)
                     item_image = item.locator("div:first-child div:first-child div:first-child div:first-child a:first-child div.picture-wrapper img[type='product']").get_attribute("src")
                     
                     discount_element = item.locator("div:first-child div:first-child div:nth-of-type(2) div:nth-of-type(4) span:first-child del")
@@ -93,6 +96,7 @@ def scrape_lazada(product_name: str):
 
                     scraped_data.append(product)
 
+                    total_price += item_price
                     rank += 1
             
                 # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
@@ -123,7 +127,7 @@ def scrape_lazada(product_name: str):
 
 def onboard_lazada(profile_url: str):
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=False)
+        browser = pw.chromium.launch(headless=True)
         context = browser.new_context(
             viewport={"width": 1920, "height": 1080},
             user_agent=random.choice(USER_AGENTS),

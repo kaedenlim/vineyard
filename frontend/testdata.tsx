@@ -80,7 +80,7 @@ export const testdata = [
 ];
 
 // testData.ts
-import { DashboardInsightData, DashboardProductCard, ProductInsightData, ProfileScrapeResponse, RecentActivityInfo } from "@/types";
+import { DashboardInsightData, DashboardProductCard, HistoryResponse, ProductInsightData, ProfileScrapeResponse, RecentActivityInfo } from "@/types";
 
 export const testProfileScrapeResponse: ProfileScrapeResponse = {
   shopee: [
@@ -298,3 +298,123 @@ export const testDashboardProductData:DashboardProductCard[] = [
       "created_at": "05/04/2025"
   }
 ]
+
+export const testHistoryData:HistoryResponse = {
+  "history": [
+    {
+      "product_query": "sweatpants",
+      "timestamp": "06/04/2025 12:15",
+      "lazada_average_price": 0,
+      "carousell_average_price": 16.28804347826087,
+      "insights": "1. **Price Analysis and Comparison**: The average price for sweatpants on Carousell is approximately $16.29, with individual listings ranging from $2.17 to $20. The lowest-priced sweatpants on Lazada are around $2.17, highlighting a significant price variance between platforms.\n\n2. **Market Trends and Observations**: There is a diverse range of sweatpants styles and prices, indicating a healthy market catering to various consumer preferences, from budget-friendly options to branded designs. Popular brands like Puma and Adidas are present, suggesting brand loyalty among customers.\n\n3. **Potential Value for Money Assessment**: Budget options ($2.17 - $7.87) offer great value, especially for casual wear, while higher-priced listings ($15.67 - $20) target consumers seeking quality or brand prestige. Pricing strategies should focus on offering competitive pricing for similar styles to capture market share.\n\n4. **Notable Patterns or Insights**: There is a clear demand for both budget and premium options in the sweatpants market. Titles should emphasize key features (e.g., \"Comfortable Cotton Sweatpants for All Seasons\") and a price point of around $7 to $15 would likely attract a wide customer base while remaining competitive.",
+      "lazada_products": [
+        {
+          "title": "High Qualiti Kids Solid Trousers 100% Cotton Simple and Fashion Long Pants for Boys Girls Autumn Casual Sports Sweatpants",
+          "price": 6.88,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/p/0b5f2e1d88b7c65865e7a214b8231be6.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/high-qualiti-kids-solid-trousers-100-cotton-simple-and-fashion-long-pants-for-boys-girls-autumn-casual-sports-sweatpants-i3088620064.html",
+          "page_ranking": 1
+        },
+        {
+          "title": "Loose Fit Cotton Sweatpants for Men Spring Autumn Casual Running Trousers High Waist Straight Leg Breathable Polyester Fiber",
+          "price": 2.17,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/ff/kf/Sb9a3bcb051ba4d6d932c52a0293b21883.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/loose-fit-cotton-sweatpants-for-men-spring-autumn-casual-running-trousers-high-waist-straight-leg-breathable-polyester-fiber-i3422958944.html",
+          "page_ranking": 2
+        },
+        {
+          "title": "2024 Summer Kids Trousers Solid Simplicity Thin Long Pants Baby Children Spring Autumn Sport Casual Sweatpants",
+          "price": 6.15,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/p/ac95bacdfc4a4ff6c0d23f81a06b0985.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/2024-summer-kids-trousers-solid-simplicity-thin-long-pants-baby-children-spring-autumn-sport-casual-sweatpants-i3095982090.html",
+          "page_ranking": 3
+        },
+        {
+          "title": "New 2024 Boys' Casual Sports Pants Children's Long Trousers Autumn Winter Leisure Sweatpants for Middle And Big Kids",
+          "price": 4.65,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/ff/kf/S45d52ddbaff34333958cb986a702b7b4v.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/new-2024-boys-casual-sports-pants-childrens-long-trousers-autumn-winter-leisure-sweatpants-for-middle-and-big-kids-i3386756949.html",
+          "page_ranking": 4
+        },
+        {
+          "title": "Autumn Winter Fleece-Lined Thickened Casual Sweatpants Men's Warm Loose-Fit Long Pants Plus Size Extra Wide Fashion",
+          "price": 15.67,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/ff/kf/Se53e4ca55a084463849dd7e133c19e5dW.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/autumn-winter-fleece-lined-thickened-casual-sweatpants-mens-warm-loose-fit-long-pants-plus-size-extra-wide-fashion-i3422282683.html",
+          "page_ranking": 5
+        },
+        {
+          "title": "2024 High Quality Children Boys Long Sport Pants 100% Cotton Car Cartoon Trousers Spring Autumn Casual Sweatpants",
+          "price": 7.87,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/p/ed9177c5b51622d74e042eae86019478.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/2024-high-quality-children-boys-long-sport-pants-100-cotton-car-cartoon-trousers-spring-autumn-casual-sweatpants-i3088544251.html",
+          "page_ranking": 6
+        },
+        {
+          "title": "Boys Dab astronaut Joggers Sweatpants Kids Skinny Pants Gyms Workout Track pants Autumn Winter Male Cotton Sportswear Trousers",
+          "price": 7.12,
+          "discount": 0,
+          "image": "https://img.lazcdn.com/g/ff/kf/S922dfe36ddf94b6986f82308cdd440341.jpg_200x200q80.avif",
+          "link": "https://lazada.sg/products/boys-dab-astronaut-joggers-sweatpants-kids-skinny-pants-gyms-workout-track-pants-autumn-winter-male-cotton-sportswear-trousers-i3124873027.html",
+          "page_ranking": 7
+        }
+      ],
+      "carousell_products": [
+        {
+          "title": "Mid-rise Victoria Secrets Sweatpants",
+          "price": 20,
+          "discount": 0.19999999999999996,
+          "image": "https://media.karousell.com/media/photos/products/2025/2/3/midrise_victoria_secrets_sweat_1738572810_da08460e_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/mid-rise-victoria-secrets-sweatpants-1350975433/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=0",
+          "page_ranking": 1
+        },
+        {
+          "title": "Puma Sweatpants",
+          "price": 5,
+          "discount": 0,
+          "image": "https://media.karousell.com/media/photos/products/2025/4/5/puma_sweatpants_1743819873_0c65171b_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/puma-sweatpants-1361963105/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=1",
+          "page_ranking": 2
+        },
+        {
+          "title": "checkered tartan plaid red sweatpants",
+          "price": 5,
+          "discount": 0,
+          "image": "https://media.karousell.com/media/photos/products/2025/4/5/checkered_tartan_plaid_red_swe_1743833505_a29a4074_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/checkered-tartan-plaid-red-sweatpants-1362000004/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=2",
+          "page_ranking": 3
+        },
+        {
+          "title": "Adidas Unisex Meilin CNY Series Black Sweatpants",
+          "price": 18,
+          "discount": 0,
+          "image": "https://media.karousell.com/media/photos/products/2025/1/31/adidas_unisex_meilin_cny_serie_1738313719_d0905009_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/adidas-unisex-meilin-cny-series-black-sweatpants-1350454926/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=3",
+          "page_ranking": 4
+        },
+        {
+          "title": "Grey Sweatpants",
+          "price": 16,
+          "discount": 0,
+          "image": "https://media.karousell.com/media/photos/products/2025/4/4/grey_sweatpants_1743772152_26bfcac7_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/grey-sweatpants-1361903984/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=5",
+          "page_ranking": 5
+        },
+        {
+          "title": "grey trackpants joggers sweatpants",
+          "price": 5,
+          "discount": 0,
+          "image": "https://media.karousell.com/media/photos/products/2025/4/4/grey_trackpants_sweatpants_1743762624_df763046_progressive_thumbnail.jpg",
+          "link": "https://www.carousell.sg/p/grey-trackpants-joggers-sweatpants-1361881323/?t-id=ndEBpr9uN4_1743912891233&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=NhGlSrGuKl6lAgVv&t-referrer_search_query=sweatpants&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=6",
+          "page_ranking": 6
+        }
+      ]
+    }
+  ]
+}

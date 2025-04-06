@@ -11,5 +11,5 @@ class ScrapeDTO(BaseModel):
     username: str 
     product: str
 
-class DashboardDTO(BaseModel):
+class UsernameDTO(BaseModel):
     username: str
