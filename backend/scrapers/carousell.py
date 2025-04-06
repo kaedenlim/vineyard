@@ -73,7 +73,10 @@ def scrape_carousell(product_name: str):
                 #listing.locator("div:first-child a:nth-of-type(2) p:first-child")
 
                 # Extract price (from `title` attribute)
-                price = extract_price(listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title"))
+                price_pre = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title")
+                price = 0
+                if price_pre != "" and price_pre != '':
+                    price = extract_price(price_pre)
 
                 discount = 0
                 discount_element = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) span")
