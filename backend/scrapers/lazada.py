@@ -1,8 +1,29 @@
+from fastapi import FastAPI, APIRouter, Query
+import uvicorn
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
-from models.model import Product, ScrapeResult
 import random
 import re
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Product:
+    title: str
+    price: float
+    discount: float
+    image: str
+    link: str
+    page_ranking: int
+
+@dataclass
+class ScrapeResult:
+    scraped_data: List[Product]
+    timestamp: str
+    average_price: float
+    top_listings: List[Product]
+
+router = APIRouter()
 
 USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -16,7 +37,9 @@ def extract_price(price_str):
     cleaned = re.sub(r"[^\d.]", "", price_str)
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
-def scrape_lazada(product_name: str):
+
+@router.get("/scrape", response_model=ScrapeResult)
+def scrape_lazada(product_name: str = Query(..., description="Product name to search")):
     times = 1;
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
@@ -125,7 +148,8 @@ def scrape_lazada(product_name: str):
     
         return lazada
 
-def onboard_lazada(profile_url: str):
+@router.get("/scrapeclient")
+def scrape_lazada_client(profile_url: str = Query(..., description="Profile URL")):
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
         context = browser.new_context(
@@ -183,3 +207,13 @@ def onboard_lazada(profile_url: str):
                     print(f"Error extracting a listing: {e}")
 
         return scraped_data
+    
+    
+        # Create a FastAPI app and include the router
+    
+app = FastAPI()
+app.include_router(router, prefix="/lazada")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("lazada:app", host="0.0.0.0", port=8001, reload=True)

@@ -1,15 +1,37 @@
+from fastapi import FastAPI, APIRouter, Query
+import uvicorn
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
-from models.model import Product, ScrapeResult
 import random
 import re
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Product:
+    title: str
+    price: float
+    discount: float
+    image: str
+    link: str
+    page_ranking: int
+
+@dataclass
+class ScrapeResult:
+    scraped_data: List[Product]
+    timestamp: str
+    average_price: float
+    top_listings: List[Product]
+
+router = APIRouter()
 
 def extract_price(price_str):
     """Extracts numerical value from a currency string."""
     cleaned = re.sub(r"[^\d.]", "", price_str)
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
-def scrape_carousell(product_name: str):
+@router.get("/scrape", response_model=ScrapeResult)
+def scrape_carousell(product_name: str = Query(..., description="Product name to search")):
     
     scraped_data_with_timestamp = {}
 
@@ -130,8 +152,10 @@ def scrape_carousell(product_name: str):
         )
 
         return carousell
-
-def onboard_carousell(profile_url: str):
+    
+    
+@router.get("/scrapeclient")
+def scrape_carousell_client(profile_url: str = Query(..., description="Profile URL")):
     with sync_playwright() as p:
 
         browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
@@ -198,3 +222,12 @@ def onboard_carousell(profile_url: str):
         browser.close()
 
         return scraped_data
+    
+    
+# Create a FastAPI app and include the router
+app = FastAPI()
+app.include_router(router, prefix="/carousell")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("carousell:app", host="0.0.0.0", port=8002, reload=True)
