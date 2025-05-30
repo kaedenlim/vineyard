@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Query
+from fastapi import FastAPI, Query
 import uvicorn
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timezone, timedelta
@@ -23,14 +23,14 @@ class ScrapeResult:
     average_price: float
     top_listings: List[Product]
 
-router = APIRouter()
-
 def extract_price(price_str):
     """Extracts numerical value from a currency string."""
     cleaned = re.sub(r"[^\d.]", "", price_str)
     return float(cleaned) # if "." in cleaned else int(cleaned)
 
-@router.get("/scrape", response_model=ScrapeResult)
+app = FastAPI()
+
+@app.get("/carousell/scrape", response_model=ScrapeResult)
 def scrape_carousell(product_name: str = Query(..., description="Product name to search")):
     
     scraped_data_with_timestamp = {}
@@ -154,7 +154,7 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
         return carousell
     
     
-@router.get("/scrapeclient")
+@app.get("/carousell/retrieve_client")
 def scrape_carousell_client(profile_url: str = Query(..., description="Profile URL")):
     with sync_playwright() as p:
 
@@ -197,7 +197,6 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
 
                 # Extract product name
                 product_title = listing.locator("p[style*='--max-line']").text_content()
-
                 relative_link = listing.locator("div:first-child a:first-child").last.get_attribute("href")
         
                 # Extract price (from `title` attribute)
@@ -205,7 +204,6 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
 
                 # Extract image url
                 image = listing.locator("div:first-child a:first-child div:first-child div:has(img) img").get_attribute("src")
-
                 url = "https://carousell.sg" + relative_link if relative_link else "N/A"
 
                 # Save data
@@ -222,12 +220,7 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
         browser.close()
 
         return scraped_data
-    
-    
-# Create a FastAPI app and include the router
-app = FastAPI()
-app.include_router(router, prefix="/carousell")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("carousell:app", host="0.0.0.0", port=8002, reload=True)
+    uvicorn.run("carousell_service:app", host="0.0.0.0", port=8002, reload=True)
