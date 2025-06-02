@@ -1,68 +1,156 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import httpx
+from fastapi.responses import JSONResponse
 import uvicorn
 from pydantic import BaseModel, HttpUrl
 from typing import Optional
+import logging
+import httpx
+import asyncio
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], 
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class ScrapeClientDTO(BaseModel):
+    lazada_url: Optional[HttpUrl] = None
+    carousell_url: Optional[HttpUrl] = None
 
-class OnboardDTO(BaseModel):
-    username: str 
-    shopee_url: Optional[HttpUrl] = ""  
-    lazada_url: Optional[HttpUrl] = ""
-    carousell_url: Optional[HttpUrl] = ""
-
-class ScrapeDTO(BaseModel):
-    username: str 
+class ScrapeProductDTO(BaseModel):
     product: str
 
-def scrape_lazada(product_name: str):
-    response = httpx.get(f"http://localhost:8001/lazada/scrape?product_name={product_name}")
-    return response.json() if response.status_code == 200 else []
+async def scrape_lazada_market(product_name: str):
+    url = f"http://localhost:8001/lazada/scrape_market?product_name={product_name}"
+    logger.info(f"Scraping Lazada market with URL: {url}")
+    async with httpx.AsyncClient(timeout=30) as client:
+        try:
+            response = await client.get(url)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    logger.info("Successfully scraped Lazada market")
+                    return {"results": data}
+                except ValueError:
+                    logger.error("Invalid JSON in response from Lazada market")
+                    return {"error": "Invalid JSON in response"}
+            logger.error(f"Request to Lazada market failed with status code {response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+        except httpx.RequestError as e:
+            logger.error(f"Request error occurred for Lazada market: {str(e)}")
+            return {"error": f"Request error occurred: {str(e)}"}
 
-def onboard_lazada(url: str):
-    response = httpx.get(f"http://localhost:8001/lazada-onboard?url={url}")
-    return response.json() if response.status_code == 200 else []
+async def scrape_lazada_client(url: str):
+    outgoing_url = f"http://localhost:8001/lazada/scrape_client?profile_url={url}"
+    logger.info(f"Scraping Lazada client with URL: {outgoing_url}")
+    async with httpx.AsyncClient(timeout=30) as client:
+        try:
+            response = await client.get(outgoing_url)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    logger.info("Successfully scraped Lazada client")
+                    return {"results": data}
+                except ValueError:
+                    logger.error("Invalid JSON in response from Lazada client")
+                    return {"error": "Invalid JSON in response"}
+            logger.error(f"Request to Lazada client failed with status code {response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+        except httpx.RequestError as e:
+            logger.error(f"Request error occurred for Lazada client: {str(e)}")
+            return {"error": f"Request error occurred: {str(e)}"}
 
-def scrape_carousell(product_name: str):
-    response = httpx.get(f"http://localhost:8002/carousell/scrape?product_name={product_name}")
-    return response.json() if response.status_code == 200 else []
+async def scrape_carousell_market(product_name: str):
+    url = f"http://localhost:8002/carousell/scrape_market?product_name={product_name}"
+    logger.info(f"Scraping Carousell market with URL: {url}")
+    async with httpx.AsyncClient(timeout=30) as client:
+        try:
+            response = await client.get(url)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    logger.info("Successfully scraped Carousell market")
+                    return {"results": data}
+                except ValueError:
+                    logger.error("Invalid JSON in response from Carousell market")
+                    return {"error": "Invalid JSON in response"}
+            logger.error(f"Request to Carousell market failed with status code {response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+        except httpx.RequestError as e:
+            logger.error(f"Request error occurred for Carousell market: {str(e)}")
+            return {"error": f"Request error occurred: {str(e)}"}
 
-def onboard_carousell(url: str):
-    response = httpx.get(f"http://localhost:8002/carousell-onboard?url={url}")
-    return response.json() if response.status_code == 200 else []
+async def scrape_carousell_client(url: str):
+    outgoing_url = f"http://localhost:8002/carousell/scrape_client?profile_url={url}"
+    logger.info(f"Scraping Carousell client with URL: {outgoing_url}")
+    async with httpx.AsyncClient(timeout=30) as client:
+        try:
+            response = await client.get(outgoing_url)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    logger.info("Successfully scraped Carousell client")
+                    return {"results": data}
+                except ValueError:
+                    logger.error("Invalid JSON in response from Carousell client")
+                    return {"error": "Invalid JSON in response"}
+            logger.error(f"Request to Carousell client failed with status code {response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+        except httpx.RequestError as e:
+            logger.error(f"Request error occurred for Carousell client: {str(e)}")
+            return {"error": f"Request error occurred: {str(e)}"}
 
-@app.get("/scrape/client")
-def scrape_client(request: OnboardDTO):
-    
-    carousell_results = []
-    lazada_results = []
-    
+@app.post("/scrape/client")
+async def scrape_client(request: ScrapeClientDTO):
+    errors = {}
+    result = {}
+
     if request.lazada_url:
-        lazada_results = onboard_lazada(str(request.lazada_url))
+        lazada_results = await scrape_lazada_client(request.lazada_url)
+        if lazada_results.get("error"):
+            errors["lazada_error"] = lazada_results["error"]
+        else:
+            result["lazada"] = lazada_results.get("results")
 
     if request.carousell_url:
-        carousell_results = onboard_carousell(str(request.carousell_url))
+        carousell_results = await scrape_carousell_client(request.carousell_url)
+        if carousell_results.get("error"):
+            errors["carousell_error"] = carousell_results["error"]
+        else:
+            result["carousell"] = carousell_results.get("results")
 
-    return {"lazada": lazada_results, "carousell": carousell_results}
+    if ("lazada_error" in errors) and ("carousell_error" in errors):
+        return JSONResponse(status_code=502, content=errors)
 
-@app.get("/scrape/product")
-def scrape_product(scrape_request: ScrapeDTO):
+    result.update(errors)
+    return result
 
-    # default is 1 page to scrape (avoid bot detection)
-    lazada_results = scrape_lazada(scrape_request.product)
-    carousell_results = scrape_carousell(scrape_request.product)
+@app.post("/scrape/markets")
+async def scrape_markets(request: ScrapeProductDTO):
+    lazada_task = scrape_lazada_market(request.product)
+    carousell_task = scrape_carousell_market(request.product)
+    lazada_results, carousell_results = await asyncio.gather(lazada_task, carousell_task)
 
-    return {"lazada": lazada_results, "carousell": carousell_results}
+    errors = {}
+    result = {}
+
+    if lazada_results.get("error"):
+        errors["lazada_error"] = lazada_results["error"]
+    else:
+        result["lazada"] = lazada_results.get("results")
+
+    if carousell_results.get("error"):
+        errors["carousell_error"] = carousell_results["error"]
+    else:
+        result["carousell"] = carousell_results.get("results")
+
+    if ("lazada_error" in errors) and ("carousell_error" in errors):
+        return JSONResponse(status_code=502, content=errors)
+
+    result.update(errors)
+    return result
 
 if __name__ == "__main__":
     uvicorn.run("scrape_composite:app", host="0.0.0.0", port=8003, reload=True)

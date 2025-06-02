@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI, Query
 import uvicorn
 from playwright.sync_api import sync_playwright
@@ -6,6 +7,9 @@ import random
 import re
 from dataclasses import dataclass
 from typing import List
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @dataclass
 class Product:
@@ -21,7 +25,6 @@ class ScrapeResult:
     scraped_data: List[Product]
     timestamp: str
     average_price: float
-    top_listings: List[Product]
 
 def extract_price(price_str):
     """Extracts numerical value from a currency string."""
@@ -30,8 +33,9 @@ def extract_price(price_str):
 
 app = FastAPI()
 
-@app.get("/carousell/scrape", response_model=ScrapeResult)
+@app.get("/carousell/scrape_market", response_model=ScrapeResult)
 def scrape_carousell(product_name: str = Query(..., description="Product name to search")):
+    logger.info(f"Route /carousell/scrape_market called with product_name={product_name}")
     
     scraped_data_with_timestamp = {}
 
@@ -41,7 +45,7 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
         total_items = 0
         total_price = 0.0
 
-        browser = p.chromium.launch(headless=False, args=["--disable-blink-features=AutomationControlled"])
+        browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
         context = browser.new_context(viewport={"width": 1920, "height": 1080}, user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36")
         page = context.new_page()
         page.goto("https://www.carousell.sg/")
@@ -75,27 +79,20 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
         scraped_data = []
 
         if (len(listings) == 0):
-            print("No listings found")
+            logger.warning("No listings found")
             browser.close()
-
-        top_listings = []
-        top_listings_count = 10;
 
         for listing in listings:
             try:
-                # Extract seller username
-                # username = listing.locator("[data-testid='listing-card-text-seller-name']").text_content()
-
-                # Extract time (since no unique `data-testid`, use relative positioning)
-                # time_element = listing.locator("p.D_pK").first  # First paragraph with relevant class
-                # time = time_element.text_content() if time_element.is_visible() else "N/A"
-
                 # Extract product name
                 product_title = listing.locator("p[style*='--max-line']").text_content()
-                #listing.locator("div:first-child a:nth-of-type(2) p:first-child")
-
-                # Extract price (from `title` attribute)
-                price_pre = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child").get_attribute("title")
+                
+                price_locator = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) p:first-child")
+                if price_locator.count() == 0:
+                    continue
+                price_pre = price_locator.get_attribute("title")
+                if not price_pre:
+                    continue
                 price = 0
                 if price_pre != "" and price_pre != '':
                     price = extract_price(price_pre)
@@ -103,12 +100,23 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
                 discount = 0
                 discount_element = listing.locator("div:first-child a:nth-of-type(2) div:nth-of-type(2) span")
                 if discount_element.count() > 0:
-                    discount = 1 - (price/extract_price(discount_element.get_attribute("title")))
+                    discount_title = discount_element.get_attribute("title")
+                    if discount_title:
+                        discount = 1 - (price/extract_price(discount_title))
 
-                # Extract image url
-                image = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img").get_attribute("src")
+                image_locator = listing.locator("div:first-child a:nth-of-type(2) div:first-child div:has(img) img")
+                if image_locator.count() == 0:
+                    continue
+                image = image_locator.get_attribute("src")
+                if not image:
+                    continue
 
-                relative_link = listing.locator("div:first-child a:nth-of-type(2)").last.get_attribute("href")
+                relative_link_locator = listing.locator("div:first-child a:nth-of-type(2)").last
+                if relative_link_locator.count() == 0:
+                    continue
+                relative_link = relative_link_locator.get_attribute("href")
+                if not relative_link:
+                    continue
 
                 url = BASE_URL + relative_link if relative_link else "N/A"
 
@@ -123,20 +131,22 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
                 # Save data
                 scraped_data.append(product)
 
-                if top_listings_count > 0:
-                    top_listings.append(product)
-                    top_listings_count -= 1
-
                 total_items += 1
                 total_price += price
 
+                # Stop collecting products once 10 have been scraped
+                if total_items >= 10:
+                    break
+
             except Exception as e:
-                print(f"Error extracting a listing: {e}")
+                logger.warning(f"Error extracting a listing: {e}")
 
         browser.close()
 
+        logger.info(f"Scraped {len(scraped_data)} products from market search")
+
         # Get average price for the product
-        average_price = total_price / total_items
+        average_price = total_price / total_items if total_items > 0 else 0.0
 
         # Define Singapore timezone (UTC+8)
         sgt_timezone = timezone(timedelta(hours=8))
@@ -147,15 +157,15 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
         carousell = ScrapeResult(
             scraped_data=scraped_data,
             timestamp=current_time_sgt,
-            average_price=average_price,
-            top_listings=top_listings
+            average_price=average_price
         )
 
         return carousell
     
     
-@app.get("/carousell/retrieve_client")
+@app.get("/carousell/scrape_client")
 def scrape_carousell_client(profile_url: str = Query(..., description="Profile URL")):
+    logger.info(f"Route /carousell/scrape_client called with profile_url={profile_url}")
     with sync_playwright() as p:
 
         browser = p.chromium.launch(headless=True, args=["--disable-blink-features=AutomationControlled"])
@@ -184,26 +194,52 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
         scraped_data = []
 
         if (len(listings) == 0):
-            print("No listings found")
+            logger.warning("No listings found")
             browser.close()
 
         for listing in listings:
             try:
                 # Extract product status
                 product_status_element = listing.locator("div:first-child a:first-child div:first-child p:first-child")
-                if product_status_element.count() > 0 and product_status_element.text_content() != "Buyer Protection":
-                    print("this product is 'SOLD' or product_status is 'RESERVED'")
+                if product_status_element.count() > 0:
+                    product_status_text = product_status_element.text_content()
+                    if product_status_text != "Buyer Protection":
+                        logger.warning("This product is 'SOLD' or product_status is 'RESERVED'")
+                        continue
+                else:
+                    # If product status element missing, skip listing
                     continue
 
                 # Extract product name
-                product_title = listing.locator("p[style*='--max-line']").text_content()
-                relative_link = listing.locator("div:first-child a:first-child").last.get_attribute("href")
+                product_title_locator = listing.locator("p[style*='--max-line']")
+                if product_title_locator.count() == 0:
+                    continue
+                product_title = product_title_locator.text_content()
+
+                relative_link_locator = listing.locator("div:first-child a:first-child").last
+                if relative_link_locator.count() == 0:
+                    continue
+                relative_link = relative_link_locator.get_attribute("href")
+                if not relative_link:
+                    continue
         
                 # Extract price (from `title` attribute)
-                price = extract_price(listing.locator("div:first-child a:first-child div:nth-of-type(2) p:first-child").get_attribute("title"))
+                price_locator = listing.locator("div:first-child a:first-child div:nth-of-type(2) p:first-child")
+                if price_locator.count() == 0:
+                    continue
+                price_title = price_locator.get_attribute("title")
+                if not price_title:
+                    continue
+                price = extract_price(price_title)
 
                 # Extract image url
-                image = listing.locator("div:first-child a:first-child div:first-child div:has(img) img").get_attribute("src")
+                image_locator = listing.locator("div:first-child a:first-child div:first-child div:has(img) img")
+                if image_locator.count() == 0:
+                    continue
+                image = image_locator.get_attribute("src")
+                if not image:
+                    continue
+
                 url = "https://carousell.sg" + relative_link if relative_link else "N/A"
 
                 # Save data
@@ -215,9 +251,11 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
                 })
 
             except Exception as e:
-                print(f"Error extracting a listing: {e}")
+                logger.warning(f"Error extracting a listing: {e}")
 
         browser.close()
+
+        logger.info(f"Scraped {len(scraped_data)} products from client profile")
 
         return scraped_data
 

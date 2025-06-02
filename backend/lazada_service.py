@@ -6,6 +6,9 @@ import random
 import re
 from dataclasses import dataclass
 from typing import List
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 @dataclass
 class Product:
@@ -21,7 +24,6 @@ class ScrapeResult:
     scraped_data: List[Product]
     timestamp: str
     average_price: float
-    top_listings: List[Product]
 
 USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -37,8 +39,9 @@ def extract_price(price_str):
 
 app = FastAPI()
 
-@app.get("/lazada/scrape", response_model=ScrapeResult)
+@app.get("/lazada/scrape_market", response_model=ScrapeResult)
 def scrape_lazada(product_name: str = Query(..., description="Product name to search")):
+    logging.info(f"Scrape route '/lazada/scrape_market' called with product_name: {product_name}")
     times = 1;
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
@@ -71,9 +74,6 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
         total_items = 0
         total_price = 0.0
         
-        top_listings = []
-        top_listings_count = 10
-
         rank = 1;
         while times:
             times -= 1
@@ -81,7 +81,6 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
 
             # Get all the products on the page and their counts to keep track
             items_elements = page.locator("div[data-qa-locator='product-item']")
-            total_items = items_elements.count()
             items = items_elements.all();
 
             scraped_data = []
@@ -112,14 +111,14 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
                         page_ranking=rank
                     )
 
-                    if top_listings_count > 0:
-                        top_listings.append(product)
-                        top_listings_count -= 1
-
                     scraped_data.append(product)
 
+                    total_items += 1
                     total_price += item_price
                     rank += 1
+
+                    if len(scraped_data) >= 10:
+                        break
             
                 # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
                 # if button.is_visible() and button.get_attribute("disabled") is None:
@@ -129,10 +128,12 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
                 #     print("No more pages left.")
                 #     break
                 except Exception as e:
-                    print(f"Error extracting a listing: {e}")
+                    logging.error(f"Error extracting a listing: {e}")
+            if len(scraped_data) >= 10:
+                break
         
         # Get average price for the product
-        average_price = total_price / total_items
+        average_price = total_price / total_items if total_items > 0 else 0.0
 
         # Get current time in Singapore Time (ISO format)
         sgt_timezone = timezone(timedelta(hours=8))
@@ -141,14 +142,15 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
         lazada = ScrapeResult(
             scraped_data=scraped_data,
             timestamp=timestamp,
-            average_price=average_price,
-            top_listings=top_listings
+            average_price=average_price
         )
     
+        logging.info(f"Scraped {len(scraped_data)} products from market search")
         return lazada
 
-@app.get("/lazada/retrieve_client")
+@app.get("/lazada/scrape_client")
 def scrape_lazada_client(profile_url: str = Query(..., description="Profile URL")):
+    logging.info(f"Scrape route '/lazada/scrape_client' called with profile_url: {profile_url}")
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
         context = browser.new_context(
@@ -194,6 +196,9 @@ def scrape_lazada_client(profile_url: str = Query(..., description="Profile URL"
                         "image": item_image if item_image.startswith("https://img.lazcdn") else "",
                         "link": full_item_url
                     })
+
+                    if len(scraped_data) >= 10:
+                        break
             
                 # button = page.locator("button.ant-pagination-item-link span[aria-label='right']")
                 # if button.is_visible() and button.get_attribute("disabled") is None:
@@ -203,8 +208,9 @@ def scrape_lazada_client(profile_url: str = Query(..., description="Profile URL"
                 #     print("No more pages left.")
                 #     break
                 except Exception as e:
-                    print(f"Error extracting a listing: {e}")
+                    logging.error(f"Error extracting a listing: {e}")
 
+        logging.info(f"Scraped {len(scraped_data)} products from client profile")
         return scraped_data
 
 if __name__ == "__main__":
