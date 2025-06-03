@@ -52,7 +52,7 @@ async def scrape_market_data(client: httpx.AsyncClient, product_name: str) -> di
 def format_for_interpretation(data):
     if not data or "scraped_data" not in data:
         return {}
-    top_items = sorted(data["scraped_data"], key=lambda x: x.get("page_ranking", float("inf")))[:5]
+    top_items = sorted(data["scraped_data"], key=lambda x: x.get("Ranking", float("inf")))[:2]
     return {
         "top_listings": top_items,
         "average_price": data.get("average_price")
@@ -80,6 +80,10 @@ async def interpret_data(client: httpx.AsyncClient, product_name: str, results: 
 
 @app.post("/quantitative")
 async def get_quantitative_analysis(request: QuantitativeDTO):
+    import uuid
+    import os
+    import json
+
     logger.info(f"Starting quantitative analysis: product_name={request.product_name}, scrape_client={request.scrape_client}")
     final_response = {}
 
@@ -119,6 +123,25 @@ async def get_quantitative_analysis(request: QuantitativeDTO):
                 "market_error": final_response["market_error"]
             }
         )
+
+    # Ensure streamlit_data directory exists
+    os.makedirs("streamlit_data", exist_ok=True)
+
+    # Generate a unique token
+    token = str(uuid.uuid4())
+    streamlit_path = os.path.join("streamlit_data", f"{token}.json")
+
+    # Save relevant data to file
+    with open(streamlit_path, "w") as f:
+        json.dump({
+            "product": request.product_name,
+            "market_scrape_results": final_response.get("market_scrape_results"),
+            "client_scrape_results": final_response.get("client_scrape_results"),
+            "interpretation": final_response.get("interpretation")
+        }, f, indent=2)
+    
+    # Include token in final response
+    final_response["token"] = token
 
     return {k: v for k, v in final_response.items() if v is not None}
 

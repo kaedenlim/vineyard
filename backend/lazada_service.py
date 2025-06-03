@@ -7,17 +7,18 @@ import re
 from dataclasses import dataclass
 from typing import List
 import logging
+from urllib.parse import urljoin
 
 logging.basicConfig(level=logging.INFO)
 
 @dataclass
 class Product:
-    title: str
-    price: float
-    discount: float
-    image: str
-    link: str
-    page_ranking: int
+    Title: str
+    Price: float
+    Discount: float
+    Image: str
+    Link: str
+    Ranking: int
 
 @dataclass
 class ScrapeResult:
@@ -100,15 +101,15 @@ def scrape_lazada(product_name: str = Query(..., description="Product name to se
                     if discount_element.count() > 0:
                         item_discount = 1 - (item_price / extract_price(discount_element.text_content()))
 
-                    full_item_url = "https://lazada.sg" + item_link if not item_link.startswith("https://lazada.sg") else item_link
+                    full_item_url = urljoin("https://lazada.sg", item_link)
 
                     product = Product(
-                        title=item_title,
-                        price=item_price,
-                        discount=item_discount,
-                        image=item_image if item_image.startswith("https://img.lazcdn") else "",
-                        link=full_item_url,
-                        page_ranking=rank
+                        Title=item_title,
+                        Price=item_price,
+                        Discount=item_discount,
+                        Image=item_image if item_image.startswith("https://img.lazcdn") else "",
+                        Link=full_item_url,
+                        Ranking=rank
                     )
 
                     scraped_data.append(product)

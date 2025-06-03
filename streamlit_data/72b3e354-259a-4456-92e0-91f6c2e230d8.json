@@ -1,0 +1,179 @@
+{
+  "product": "laptop",
+  "market_scrape_results": {
+    "lazada": {
+      "scraped_data": [
+        {
+          "Title": "Ultrathin and Portable Laptop Windows 11 i7 Laptop 15.6 \"1920x1080P Laptop Intel Core i7-8500Y 16GB RAM 1TB SSD Office Studio PC\u30103 Years Warranty\u3011",
+          "Price": 336.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/284523439090b62be1b331cd641e1f51.jpg_200x200q80.avif",
+          "Link": "https://www.lazada.sg/products/pdp-i3427701146.html",
+          "Ranking": 1
+        },
+        {
+          "Title": "[GWP] ASUS Premium Care - FREE 1-Year Carry-In Warranty Extension - Gaming Laptop",
+          "Price": 108.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/7623c2482cd608ffb2590d911e954400.jpg_200x200q80.avif",
+          "Link": "https://www.lazada.sg/products/pdp-i3437283953.html",
+          "Ranking": 2
+        },
+        {
+          "Title": "Refurbished Dell E6230 12.2\" laptop,4GB/8GB RAM,320 GB HDD/256 GB SSD ,Windows 10 pro ,Intel Core i5-3rd generation",
+          "Price": 129.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/6443e3b2e6ed08ec54ed0aa7c174d307.jpg_200x200q80.avif",
+          "Link": "https://www.lazada.sg/products/pdp-i2304415502.html",
+          "Ranking": 3
+        },
+        {
+          "Title": "Lenovo ThinkPad  X270 i5 7th Gen  16GB Ram,  512GB SSD , 12.5inch , Windows 11 Pro , Ms Office  (Refurbished )",
+          "Price": 199.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/7418ec20283b84153b90b82e9e6923d1.jpg_200x200q80.avif",
+          "Link": "https://lazada.sg/products/pdp-i2352252884.html",
+          "Ranking": 4
+        },
+        {
+          "Title": "HP 12 Inch Intel Laptop | Fast Boost Up | Windows OS | Free MS Office | Local Seller | SG Warranty | Fast Shipping !",
+          "Price": 99.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/99b1d94661ce11333ebd8c76e0e3f461.jpg_200x200q80.avif",
+          "Link": "https://lazada.sg/products/pdp-i1993477489.html",
+          "Ranking": 5
+        },
+        {
+          "Title": "Acer 15.6 Inch Laptop | Free MS Office | Windows OS | Chrome Book | Slim | SG Warranty | SG Seller | Fast Shipping",
+          "Price": 99.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/8f63308c4482de7ec8d209fab142e3d8.jpg_200x200q80.avif",
+          "Link": "https://lazada.sg/products/pdp-i3360699779.html",
+          "Ranking": 6
+        },
+        {
+          "Title": "ThinkPad Helix  8 GB Ram 256 GB SSD Windows 10 pro Office 2019",
+          "Price": 150.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/ed002f4b73ca8cb334df2271a23578be.jpg_200x200q80.avif",
+          "Link": "https://www.lazada.sg/products/pdp-i2523325026.html",
+          "Ranking": 7
+        },
+        {
+          "Title": "Acer 360 Touch Screen Laptop | Lenovo 360 Touch Screen Laptop | Free MS Office | Windows OS | SG Warranty | Local Seller",
+          "Price": 129.0,
+          "Discount": 0.0,
+          "Image": "https://img.lazcdn.com/g/p/31f5e24640ec51fdb12e7cc3a692e51d.jpg_200x200q80.avif",
+          "Link": "https://lazada.sg/products/pdp-i2361602438.html",
+          "Ranking": 8
+        },
+        {
+          "Title": "HP 360 Touch Screen Laptop | Acer 360 Touch Screen Laptop | Free MS Office | Windows OS | SG Warranty | Local Seller",
+          "Price": 129.0,
+          "Discount": 0.0,
+          "Image": "",
+          "Link": "https://lazada.sg/products/pdp-i3460701420.html",
+          "Ranking": 9
+        },
+        {
+          "Title": "Lenovo Intel i5 Laptop | ThinkPad X220 | 16GB RAM | 512GB SSD | Brand New Battery | Fast Boot Up | Free Window 11 | Free MS Office | Fast Shipping",
+          "Price": 239.0,
+          "Discount": 0.0,
+          "Image": "",
+          "Link": "https://lazada.sg/products/pdp-i3436766447.html",
+          "Ranking": 10
+        }
+      ],
+      "timestamp": "2025-06-03T18:08:49.040766+08:00Z",
+      "average_price": 161.7
+    },
+    "carousell": {
+      "scraped_data": [
+        {
+          "Title": "ThinkPad X12 Detachable 4G LTE Tablet Lenovo Business Laptop | 12.3\u201d FHD+ | i5-1140G7 16GB 512GB | Windows 11 Pro Microsoft Office 2021",
+          "Price": 899.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2023/11/22/thinkpad_x12_detachable_4g_lte_1700643143_f2f5410d_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/thinkpad-x12-detachable-4g-lte-tablet-lenovo-business-laptop-12-3\u201d-fhd-i5-1140g7-16gb-512gb-windows-11-pro-microsoft-office-2021-1267091054/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=0",
+          "Ranking": 1
+        },
+        {
+          "Title": "ThinkPad T14 Lenovo Laptop | 14.0'' | Touch | i7-10610U 16GB DDR4 RAM 512GB NVMe SSD | Windows 11 Pro Microsoft Office 2021",
+          "Price": 550.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/3/4/thinkpad_t14_lenovo_business_l_1741098359_dc2701ea_progressive_thumbnail",
+          "Link": "https://www.carousell.sg/p/thinkpad-t14-lenovo-laptop-14-0-touch-i7-10610u-16gb-ddr4-ram-512gb-nvme-ssd-windows-11-pro-microsoft-office-2021-1356388513/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=1",
+          "Ranking": 2
+        },
+        {
+          "Title": "RTX4050 Ryzen 7 8845HS/16GB/1TB SSD/15.6\" FHD IPS 144Hz HP Victus 15 Gaming Laptop [Warranty till May2028]",
+          "Price": 1200.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/rtx4050_ryzen_7_8845hs16gb1tb__1748943113_153e498d_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/rtx4050-ryzen-7-8845hs-16gb-1tb-ssd-15-6-fhd-ips-144hz-hp-victus-15-gaming-laptop-warranty-till-may2028-1372762731/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=2",
+          "Ranking": 3
+        },
+        {
+          "Title": "Herschel Laptop Sleeve",
+          "Price": 20.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/3/30/laptop_sleeve_1743307790_56de2041_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/herschel-laptop-sleeve-1361062391/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=3",
+          "Ranking": 4
+        },
+        {
+          "Title": "Student Touch i7 Laptop Dell Latitude 7480 | Intel i7-7600u | 16GB RAM + 256GB SSD | TOUCH 14\u201d FHD | Warranty | Nego",
+          "Price": 250.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/student_touch_i7_laptop_dell_l_1748940516_bd158693_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/student-touch-i7-laptop-dell-latitude-7480-intel-i7-7600u-16gb-ram-256gb-ssd-touch-14\u201d-fhd-warranty-nego-1372753939/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=5",
+          "Ranking": 5
+        },
+        {
+          "Title": "Lenovo c640 yoga laptop",
+          "Price": 250.0,
+          "Discount": 0.2857142857142857,
+          "Image": "https://media.karousell.com/media/photos/products/2025/4/6/lenovo_c640_yoga_laptop_1743941147_4ece2ad7_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/lenovo-c640-yoga-laptop-1360154000/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=6",
+          "Ranking": 6
+        },
+        {
+          "Title": "Dell 7th Gen SSD 256gb RAM 8gb 14 inc laptop",
+          "Price": 230.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/dell_7th_gen_ssd_256gb_ram_8gb_1748937648_bec2c05f_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/dell-7th-gen-ssd-256gb-ram-8gb-14-inc-laptop-1372744081/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=7",
+          "Ranking": 7
+        },
+        {
+          "Title": "DELL I7 11 TH GEN LAPTOP",
+          "Price": 550.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/dell_i7_11_th_gen_laptop_1748928861_720f4004_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/dell-i7-11-th-gen-laptop-1372715002/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=8",
+          "Ranking": 8
+        },
+        {
+          "Title": "Microsoft surface laptop 3 128gb $300",
+          "Price": 300.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/microsoft_surface_laptop_3_128_1748927942_d2d85a87_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/microsoft-surface-laptop-3-128gb-300-1372712429/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=9",
+          "Ranking": 9
+        },
+        {
+          "Title": "Laptop notebook Alienware 17 inch r2 i7.6 2K screen",
+          "Price": 420.0,
+          "Discount": 0.0,
+          "Image": "https://media.karousell.com/media/photos/products/2025/6/3/laptop_notebook_alienware_17_i_1748926258_d07d614e_progressive_thumbnail.jpg",
+          "Link": "https://www.carousell.sg/p/laptop-notebook-alienware-17-inch-r2-i7-6-2k-screen-1372707756/?t-id=N_iiZJ-eK-_1748945321594&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=sHC8mmknLPNcez5N&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=10",
+          "Ranking": 10
+        }
+      ],
+      "timestamp": "2025-06-03T18:08:51.763676+08:00Z",
+      "average_price": 466.9
+    }
+  },
+  "client_scrape_results": null,
+  "interpretation": "1. The average price of laptops on Lazada is significantly lower at $161.7, compared to $466.9 on Carousell, indicating a potential price discrepancy that could attract budget-conscious consumers on Lazada. \n\n2. There is a trend towards higher-end laptops on Carousell, with models featuring advanced specifications like Intel i7 processors and substantial storage, suggesting a market focused on performance and business use. \n\n3. The top-selling listings from Lazada appear to offer competitive pricing with substantial features, providing good value for money, especially for everyday use, while Carousell's offerings cater to premium users but may not represent the best value for casual buyers. \n\n4. The listings indicate a strong demand for both budget-friendly and premium laptops, highlighting a bifurcated market; targeting both segments could maximize market entry success. Consider launching a product line that balances affordability and performance, appealing to both budget and performance-centric consumers."
+}

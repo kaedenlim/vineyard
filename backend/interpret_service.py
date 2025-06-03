@@ -49,7 +49,7 @@ def generate_interpretation(product_data: Dict) -> str:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a product insights expert providing analysis about market prices and trends. Be concise and give actionable interpretation on the price and title to use that are less than 3 sentences in total."},
+                {"role": "system", "content": "You are a product analysis expert providing insights about market trends to facilitate market entry. Be concise and give actionable recommendations that are less than 3 sentences in total."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,

@@ -1,0 +1,176 @@
+{
+    "market_scrape_results": {
+        "lazada": {
+            "scraped_data": [
+                {
+                    "Title": "2025 Honor MagicBook Pro 16 HUNTER Gaming Laptop | Intel Core Ultra5-225H/Ultra9-285H RTX5070 | 16\"inchs 3K 165Hz Screen | HONOR Laptop",
+                    "Price": 1.9,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/cac3d1465d2de926348ac93ddcae4211.png_200x200q80.avif",
+                    "Link": "https://lazada.sg/products/pdp-i3444912877.html",
+                    "Ranking": 1
+                },
+                {
+                    "Title": "【ASUS Local Warranty】ASUS Zenbook 14 Air 2025 AI Laptop | UX3407 | Snapdragon X X1 26 100 | 14‘’ 2.8K 120Hz OLED 960g 12.9mm | ASUS Zenbook A14 | ASUS Laptop",
+                    "Price": 1.9,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/bbcf7401c185682b658fc12853d9e9d4.png_200x200q80.avif",
+                    "Link": "https://lazada.sg/products/pdp-i3392411715.html",
+                    "Ranking": 2
+                },
+                {
+                    "Title": "Ultrathin and Portable Laptop Windows 11 i7 Laptop 15.6 \"1920x1080P Laptop Intel Core i7-8500Y 16GB RAM 1TB SSD Office Studio PC【3 Years Warranty】",
+                    "Price": 336.0,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/284523439090b62be1b331cd641e1f51.jpg_200x200q80.avif",
+                    "Link": "https://lazada.sg//www.lazada.sg/products/pdp-i3427701146.html",
+                    "Ranking": 3
+                },
+                {
+                    "Title": "[GWP] ASUS Premium Care - FREE 1-Year Carry-In Warranty Extension - Gaming Laptop",
+                    "Price": 108.0,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/7623c2482cd608ffb2590d911e954400.jpg_200x200q80.avif",
+                    "Link": "https://lazada.sg//www.lazada.sg/products/pdp-i3437283953.html",
+                    "Ranking": 4
+                },
+                {
+                    "Title": "【ASUS Local Warranty】2024 ASUS ROG Zephyrus G14 Air Gaming Laptop | AMD Ryzen 9 8945HS RTX4060/4070 | 14\"inchs 2.8K 120Hz OLED Screen | ROG Gaming Laptop | ASUS Laptop",
+                    "Price": 1.9,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/4ae47e68b9c3b94b1e4d8cfa20cf3339.png_200x200q80.avif",
+                    "Link": "https://lazada.sg/products/pdp-i3405772787.html",
+                    "Ranking": 5
+                },
+                {
+                    "Title": "【ASUS Local Warranty】2025 ASUS ROG Flow Z13 2-in-1 Gaming Laptop | AMD Ryzen AI MAX+ 395 8060S/MAX 390 8050S | 13.4\"inchs 2.5K 180Hz Touch ROG Nebula screen | Asus Zephyrus X Laptop | ASUS Laptop",
+                    "Price": 1.9,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/aa58997a6d666bd6413630e2f9d0bcb2.png_200x200q80.avif",
+                    "Link": "https://lazada.sg/products/pdp-i3403934680.html",
+                    "Ranking": 6
+                },
+                {
+                    "Title": "HP 12 Inch Intel Laptop | Fast Boost Up | Windows OS | Free MS Office | Local Seller | SG Warranty | Fast Shipping !",
+                    "Price": 99.0,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/99b1d94661ce11333ebd8c76e0e3f461.jpg_200x200q80.avif",
+                    "Link": "https://lazada.sg/products/pdp-i1993477489.html",
+                    "Ranking": 7
+                },
+                {
+                    "Title": "Refurbished Dell E6230 12.2\" laptop,4GB/8GB RAM,320 GB HDD/256 GB SSD ,Windows 10 pro ,Intel Core i5-3rd generation",
+                    "Price": 129.0,
+                    "Discount": 0.0,
+                    "Image": "https://img.lazcdn.com/g/p/6443e3b2e6ed08ec54ed0aa7c174d307.jpg_200x200q80.avif",
+                    "Link": "https://lazada.sg//www.lazada.sg/products/pdp-i2304415502.html",
+                    "Ranking": 8
+                },
+                {
+                    "Title": "Apple 13-inch MacBook Air: Apple M4 chip with 10-core CPU",
+                    "Price": 1437.0,
+                    "Discount": 0.0,
+                    "Image": "",
+                    "Link": "https://lazada.sg/products/pdp-i627726159.html",
+                    "Ranking": 9
+                },
+                {
+                    "Title": "Lenovo ThinkPad  X270 i5 7th Gen  16GB Ram,  512GB SSD , 12.5inch , Windows 11 Pro , Ms Office  (Refurbished )",
+                    "Price": 199.0,
+                    "Discount": 0.0,
+                    "Image": "",
+                    "Link": "https://lazada.sg/products/pdp-i2352252884.html",
+                    "Ranking": 10
+                }
+            ],
+            "timestamp": "2025-06-03T15:48:03.921469+08:00Z",
+            "average_price": 231.56
+        },
+        "carousell": {
+            "scraped_data": [
+                {
+                    "Title": "Dell Latitude 7280 Touchscreen Laptop | i5 7th Gen | 256GB SSD /16GB RAM | Win 11 Pro | FREE Bag & Mouse Perfect for students, professionals, and everyday use — compact, durable, and feature-rich",
+                    "Price": 265.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/dell_latitude_7280_touchscreen_1748936250_ed7ec46d_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/dell-latitude-7280-touchscreen-laptop-i5-7th-gen-256gb-ssd-16gb-ram-win-11-pro-free-bag-mouse-perfect-for-students-professionals-and-everyday-use-—-compact-durable-and-feature-rich-1372739066/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=0",
+                    "Ranking": 1
+                },
+                {
+                    "Title": "Lenovo LOQ 15 rtx 4050  i7 13 gen gaming laptop with warranty",
+                    "Price": 850.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/lenovo_loq_rtx_4050_gaming_lap_1748936666_d7f827fb_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/lenovo-loq-15-rtx-4050-i7-13-gen-gaming-laptop-with-warranty-1372740546/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=1",
+                    "Ranking": 2
+                },
+                {
+                    "Title": "DELL I7 11 TH GEN LAPTOP",
+                    "Price": 550.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/dell_i7_11_th_gen_laptop_1748928861_720f4004_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/dell-i7-11-th-gen-laptop-1372715002/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=2",
+                    "Ranking": 3
+                },
+                {
+                    "Title": "Microsoft surface laptop 3 128gb $300",
+                    "Price": 300.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/microsoft_surface_laptop_3_128_1748927942_d2d85a87_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/microsoft-surface-laptop-3-128gb-300-1372712429/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=3",
+                    "Ranking": 4
+                },
+                {
+                    "Title": "Laptop notebook Alienware 17 inch r2 i7.6 2K screen",
+                    "Price": 420.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/laptop_notebook_alienware_17_i_1748926258_d07d614e_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/laptop-notebook-alienware-17-inch-r2-i7-6-2k-screen-1372707756/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=5",
+                    "Ranking": 5
+                },
+                {
+                    "Title": "ThinkPad T14 Lenovo Laptop | 14.0'' | Touch | i7-10610U 16GB DDR4 RAM 512GB NVMe SSD | Windows 11 Pro Microsoft Office 2021",
+                    "Price": 550.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/3/4/thinkpad_t14_lenovo_business_l_1741098359_dc2701ea_progressive_thumbnail",
+                    "Link": "https://www.carousell.sg/p/thinkpad-t14-lenovo-laptop-14-0-touch-i7-10610u-16gb-ddr4-ram-512gb-nvme-ssd-windows-11-pro-microsoft-office-2021-1356388513/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=6",
+                    "Ranking": 6
+                },
+                {
+                    "Title": "Lenovo Legion Slim 5 16IRH / 16-inch gaming laptop / 165Hz / 32GB RAM / RTX 4060 / RTX4060",
+                    "Price": 1200.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/lenovo_laptop_1748935621_c223fd13_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/lenovo-legion-slim-5-16irh-16-inch-gaming-laptop-165hz-32gb-ram-rtx-4060-rtx4060-1372736989/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=7",
+                    "Ranking": 7
+                },
+                {
+                    "Title": "Refurbished 2 in 1 [Touch screen +360°]Panasonic i5 4th gen laptop reliable to use",
+                    "Price": 149.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/refurbished_2_in_1_touch_scree_1748914788_1afddf3d_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/refurbished-2-in-1-touch-screen-360°-panasonic-i5-4th-gen-laptop-reliable-to-use-1372675871/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=8",
+                    "Ranking": 8
+                },
+                {
+                    "Title": "(READY STOCK) 2025 ASUS ROG ZEPHYRUS G16 ( Intel Ultra 9-285H, RTX 5080 / RTX 5090, 32GB / 64GB DDR5 RAM, 2TB SSD, 16 inch WQXGA 240Hz Nebula OLED, WIFI 7) Flagship Thin Gaming Laptop Notebook GU605",
+                    "Price": 5199.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/5/13/ready_stock_2025_asus_rog_zeph_1747155635_b1dd7dd2_progressive_thumbnail",
+                    "Link": "https://www.carousell.sg/p/ready-stock-2025-asus-rog-zephyrus-g16-intel-ultra-9-285h-rtx-5080-rtx-5090-32gb-64gb-ddr5-ram-2tb-ssd-16-inch-wqxga-240hz-nebula-oled-wifi-7-flagship-thin-gaming-laptop-notebook-gu605-1290914602/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=9",
+                    "Ranking": 9
+                },
+                {
+                    "Title": "Business Laptop Lenovo Thinkpad T490s | Intel Core i7-8665u | 16GB RAM | 256GB SSD | 14\" FHD | Warranty | Nego",
+                    "Price": 315.0,
+                    "Discount": 0.0,
+                    "Image": "https://media.karousell.com/media/photos/products/2025/6/3/business_laptop_lenovo_thinkpa_1748933572_6c65e351_progressive_thumbnail.jpg",
+                    "Link": "https://www.carousell.sg/p/business-laptop-lenovo-thinkpad-t490s-intel-core-i7-8665u-16gb-ram-256gb-ssd-14-fhd-warranty-nego-1372730085/?t-id=xFLfUkZ_PG_1748936876152&t-referrer_browse_type=search_results&t-referrer_page_type=search&t-referrer_request_id=2rvS-JEbvtLBeHe2&t-referrer_search_query=laptop&t-referrer_search_query_source=direct_search&t-referrer_sort_by=popular&t-tap_index=10",
+                    "Ranking": 10
+                }
+            ],
+            "timestamp": "2025-06-03T15:48:07.508227+08:00Z",
+            "average_price": 979.8
+        }
+    }
+}

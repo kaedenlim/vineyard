@@ -13,12 +13,12 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Product:
-    title: str
-    price: float
-    discount: float
-    image: str
-    link: str
-    page_ranking: int
+    Title: str
+    Price: float
+    Discount: float
+    Image: str
+    Link: str
+    Ranking: int
 
 @dataclass
 class ScrapeResult:
@@ -36,8 +36,6 @@ app = FastAPI()
 @app.get("/carousell/scrape_market", response_model=ScrapeResult)
 def scrape_carousell(product_name: str = Query(..., description="Product name to search")):
     logger.info(f"Route /carousell/scrape_market called with product_name={product_name}")
-    
-    scraped_data_with_timestamp = {}
 
     with sync_playwright() as p:
 
@@ -118,15 +116,15 @@ def scrape_carousell(product_name: str = Query(..., description="Product name to
                 if not relative_link:
                     continue
 
-                url = BASE_URL + relative_link if relative_link else "N/A"
+                Link = BASE_URL + relative_link if relative_link else "N/A"
 
                 product = Product(
-                    title=product_title,
-                    price=price,
-                    discount=discount,
-                    image=image,
-                    link=url,
-                    page_ranking=total_items + 1
+                    Title=product_title,
+                    Price=price,
+                    Discount=discount,
+                    Image=image,
+                    Link=Link,
+                    Ranking=total_items + 1
                 )
                 # Save data
                 scraped_data.append(product)
@@ -240,14 +238,14 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
                 if not image:
                     continue
 
-                url = "https://carousell.sg" + relative_link if relative_link else "N/A"
+                Link = "https://carousell.sg" + relative_link if relative_link else "N/A"
 
                 # Save data
                 scraped_data.append({
-                    "title": product_title,
-                    "price": price,
-                    "image": image,
-                    "link": url,
+                    "Title": product_title,
+                    "Price": price,
+                    "Image": image,
+                    "Link": Link,
                 })
 
             except Exception as e:
