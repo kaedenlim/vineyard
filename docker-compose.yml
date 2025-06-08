@@ -1,0 +1,122 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  process_email_comp:
+    build:
+      context: ./backend/process_email_comp
+      dockerfile: Dockerfile.process_email
+    env_file:
+      - ./.env
+    ports:
+      - "8006:8006"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  get_general_svc:
+    build:
+      context: ./backend/get_general_svc
+      dockerfile: Dockerfile.get_general
+    env_file:
+      - ./.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  get_regulatory_svc:
+    build:
+      context: ./backend/get_regulatory_svc
+      dockerfile: Dockerfile.get_regulatory
+    env_file:
+      - ./.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  get_quantitative_comp:
+    build:
+      context: ./backend/get_quantitative_comp
+      dockerfile: Dockerfile.get_quantitative
+    env_file:
+      - ./.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - streamlit_data:/app/streamlit_data
+
+  scrape_comp:
+    build:
+      context: ./backend/scrape_comp
+      dockerfile: Dockerfile.scrape
+    env_file:
+      - ./.env
+    ports:
+      - "8003:8003"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  carousell_svc:
+    build:
+      context: ./backend/carousell_svc
+      dockerfile: Dockerfile.carousell
+    env_file:
+      - ./.env
+    ports:
+      - "8002:8002"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  lazada_svc:
+    build:
+      context: ./backend/lazada_svc
+      dockerfile: Dockerfile.lazada
+    env_file:
+      - ./.env
+    ports:
+      - "8001:8001"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  interpret_svc:
+    build:
+      context: ./backend/interpret_svc
+      dockerfile: Dockerfile.interpret
+    env_file:
+      - ./.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  visualise_svc:
+    build:
+      context: ./backend/visualise_svc
+      dockerfile: Dockerfile.visualise
+    env_file:
+      - ./.env
+    ports:
+      - "8501:8501"
+    depends_on:
+      - process_email_comp
+    volumes:
+      - streamlit_data:/app/streamlit_data
+
+networks:
+  default:
+    name: vineyard_net
+
+volumes:
+  streamlit_data:
+    driver: local

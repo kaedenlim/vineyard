@@ -259,4 +259,4 @@ def scrape_carousell_client(profile_url: str = Query(..., description="Profile U
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("carousell_service:app", host="0.0.0.0", port=8002, reload=True)
+    uvicorn.run("carousell_svc:app", host="0.0.0.0", port=8002, reload=True)

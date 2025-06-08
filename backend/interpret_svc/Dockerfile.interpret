@@ -1,0 +1,25 @@
+# Dockerfile.interpret
+
+FROM python:3.13-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install build essentials if needed (for some dependencies)
+RUN apt-get update && apt-get install -y build-essential && apt-get clean
+
+# Copy requirements and install them
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY interpret_svc.py .
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Expose FastAPI port
+EXPOSE 8004
+
+# Start the FastAPI app
+CMD ["uvicorn", "interpret_svc:app", "--host", "0.0.0.0", "--port", "8004"]

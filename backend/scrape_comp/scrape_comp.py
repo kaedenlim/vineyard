@@ -153,4 +153,4 @@ async def scrape_markets(request: ScrapeProductDTO):
     return result
 
 if __name__ == "__main__":
-    uvicorn.run("scrape_composite:app", host="0.0.0.0", port=8003, reload=True)
+    uvicorn.run("scrape_comp:app", host="0.0.0.0", port=8003, reload=True)

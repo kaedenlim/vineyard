@@ -216,4 +216,4 @@ def scrape_lazada_client(profile_url: str = Query(..., description="Profile URL"
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("lazada_service:app", host="0.0.0.0", port=8001, reload=True)
+    uvicorn.run("lazada_svc:app", host="0.0.0.0", port=8001, reload=True)

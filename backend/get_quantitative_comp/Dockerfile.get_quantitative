@@ -1,0 +1,22 @@
+# Dockerfile.get_quantitative
+
+FROM python:3.13-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Install system dependencies for httpx and UUID
+RUN apt-get update && apt-get install -y build-essential && apt-get clean
+
+# Copy requirements and install them
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the service code
+COPY get_quantitative_comp.py .
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Command to run the worker
+CMD ["python", "get_quantitative_comp.py"]
