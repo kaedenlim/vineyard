@@ -127,6 +127,35 @@ services:
       - process_email_comp
     volumes:
       - streamlit_data:/app/streamlit_data
+  
+  receiver_graph:
+    build:
+      context: ./backend/receiver
+      dockerfile: Dockerfile.receiver
+    ports:
+      - "8005:8005"
+    env_file:
+      - .env
+    depends_on:
+      - process_email_comp
+
+
+  sender_graph:
+    build:
+      context: ./backend/sender
+      dockerfile: Dockerfile.sender
+    container_name: sender_graph
+    env_file:
+      - ./.env
+    environment:
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      TENANT_ID: ${TENANT_ID}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - rabbitmq
+    
 
 networks:
   default:

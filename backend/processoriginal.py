@@ -12,24 +12,13 @@ import pika
 import uuid
 import threading
 import asyncio
-import time
 
-def connect_to_rabbitmq(host='rabbitmq', retries=10, delay=5):
-    for i in range(retries):
-        try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
-            print("✅ Connected to RabbitMQ")
-            return connection
-        except pika.exceptions.AMQPConnectionError:
-            print(f"RabbitMQ not ready, retry {i+1}/{retries} in {delay}s...")
-            time.sleep(delay)
-    raise Exception("Failed to connect to RabbitMQ after multiple retries")
 
 def send_task_with_callback(queue_name, message_body, reply_to_queue):
     """
     Sends a message to a RabbitMQ queue with a unique correlation_id and reply_to queue.
     """
-    connection = connect_to_rabbitmq(host='rabbitmq')
+    connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
     channel = connection.channel()
     channel.queue_declare(queue=queue_name, durable=True)
     channel.queue_declare(queue=reply_to_queue, durable=True)
@@ -78,10 +67,9 @@ def parse_email(raw_text) -> str:
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": """You are an ecommerce market entry expert. You analyze informal emails from entrepreneurs and return structured insights. Output a JSON object with the following fields:
-                1. 'product_type': a short but specific name or category of the product (e.g., 'natural skincare', 'wireless earbuds', 'organic pet food').
+                1. 'product_type': a short, specific name or category of the product (e.g., 'natural skincare', 'wireless earbuds', 'organic pet food').
                 2. 'scrape_client': set to true if the sender explicitly requires reference to their own products/storepage, otherwise false.
-                3. 'market_info': a summary of what the sender knows or assumes about the market and what aspects they want to explore further.
-                4. 'language': the language in which the original input is written in.
+                3. 'market_info': a summary of what the sender knows or assumes about the market and what aspects they want to explore further. 
                 If the email contains no clear information, set all fields to 'test'."""},
                 {"role": "user", "content": prompt}
             ],

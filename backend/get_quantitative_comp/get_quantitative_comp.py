@@ -6,10 +6,22 @@ import uuid
 
 import httpx
 import pika
+import time
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("pika").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
+
+def connect_to_rabbitmq(host='rabbitmq', retries=10, delay=5):
+    for i in range(retries):
+        try:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
+            print("✅ Connected to RabbitMQ")
+            return connection
+        except pika.exceptions.AMQPConnectionError:
+            print(f"🐇 RabbitMQ not ready, retry {i+1}/{retries} in {delay}s...")
+            time.sleep(delay)
+    raise Exception("❌ Failed to connect to RabbitMQ after multiple retries")
 
 async def scrape_client_data(client: httpx.AsyncClient, product_type: str) -> dict:
     logger.info(f"Scraping client for product: {product_type}")
@@ -158,8 +170,7 @@ async def process_message(body: bytes):
     return streamlit_url
 
 def main():
-    connection_params = pika.ConnectionParameters(host='rabbitmq')
-    connection = pika.BlockingConnection(connection_params)
+    connection = connect_to_rabbitmq(host='rabbitmq')
     channel = connection.channel()
 
     channel.queue_declare(queue='quantitative_queue', durable=True)
