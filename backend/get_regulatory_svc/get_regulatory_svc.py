@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-def generate_regulatory_guidance(product_type: str, market_info: str) -> str:
+def generate_regulatory_guidance(product_type: str, market_info: str, language: str) -> str:
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise ValueError("OPENAI_API_KEY not found in .env file")
@@ -22,13 +22,14 @@ def generate_regulatory_guidance(product_type: str, market_info: str) -> str:
     prompt = f"""
     Product Type: {product_type}
     Market Info: {market_info}
+    Language: {language}
     """
 
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a regulatory and legal expert specializing in ecommerce. Write a very concise summary of key regulatory and legal considerations relevant to the given product type and user-supplied knowledge about the market. Focus on compliance requirements, potential legal risks, necessary certifications or licenses, and any jurisdiction-specific regulations. Keep your guidance actionable and practical, suitable for a founder preparing to enter the market."},
+                {"role": "system", "content": "You are a regulatory and legal expert specializing in ecommerce. Write a very concise summary of key regulatory and legal considerations relevant to the given product type and user-supplied knowledge about the market. Focus on compliance requirements, potential legal risks, necessary certifications or licenses, and any jurisdiction-specific regulations. Keep your guidance actionable and practical, suitable for a founder preparing to enter the market. Your output should be in the language indicated."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -45,10 +46,12 @@ def on_request(ch, method, props, body):
         data = json.loads(body)
         product_type = data.get("product_type", "")
         market_info = data.get("market_info", "")
+        language = data.get("language", "")
     except Exception as e:
         logger.warning(f"Error parsing message body: {str(e)}")
         product_type = ""
         market_info = ""
+        language = ""
 
     if product_type == "test":
         response = "test"
@@ -62,7 +65,7 @@ def on_request(ch, method, props, body):
         logger.info(f"Sent response: {response}")
         return
 
-    research_text = generate_regulatory_guidance(product_type, market_info)
+    research_text = generate_regulatory_guidance(product_type, market_info, language)
     logger.info("Successfully generated market research insights")
 
     # Clean Markdown code block if present

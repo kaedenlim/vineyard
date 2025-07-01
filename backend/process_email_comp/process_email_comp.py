@@ -66,9 +66,10 @@ def parse_email(raw_text) -> str:
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": """You are an ecommerce market entry expert. You analyze informal emails from entrepreneurs and return structured insights. Output a JSON object with the following fields:
-                1. 'product_type': a short, specific name or category of the product (e.g., 'natural skincare', 'wireless earbuds', 'organic pet food').
+                1. 'product_type': a short but specific name or category of the product (e.g., 'natural skincare', 'wireless earbuds', 'organic pet food').
                 2. 'scrape_client': set to true if the sender explicitly requires reference to their own products/storepage, otherwise false.
-                3. 'market_info': a summary of what the sender knows or assumes about the market and what aspects they want to explore further. 
+                3. 'market_info': a summary of what the sender knows or assumes about the market and what aspects they want to explore further.
+                4. 'language': the language in which the original input is written in.
                 If the email contains no clear information, set all fields to 'test'."""},
                 {"role": "user", "content": prompt}
             ],

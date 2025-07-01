@@ -21,6 +21,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/process_email_comp:/app
 
   get_general_svc:
     build:
@@ -31,6 +33,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/get_general_svc:/app
 
   get_regulatory_svc:
     build:
@@ -41,6 +45,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/get_regulatory_svc:/app
 
   get_quantitative_comp:
     build:
@@ -52,6 +58,7 @@ services:
       rabbitmq:
         condition: service_healthy
     volumes:
+      - ./backend/get_quantitative_comp:/app
       - streamlit_data:/app/streamlit_data
 
   scrape_comp:
@@ -65,6 +72,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/scrape_comp:/app
 
   carousell_svc:
     build:
@@ -77,6 +86,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/carousell_svc:/app
 
   lazada_svc:
     build:
@@ -89,6 +100,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/lazada_svc:/app
 
   interpret_svc:
     build:
@@ -99,6 +112,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./backend/interpret_svc:/app
 
   visualise_svc:
     build:
